@@ -36,7 +36,7 @@ const pressHandler2=() => {
             <View style={styles.space} />
             <TouchableOpacity onPress={pressHandler}>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>Register</Text>
+                    <Text style={styles.buttonText}>Register..</Text>
                 </View>
              </TouchableOpacity>
             
