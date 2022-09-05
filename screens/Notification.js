@@ -9,7 +9,7 @@ export default function Notification({navigation}){
                     <Card>
                         <View>
                             <Text>
-                                These are your Notifications
+                                These are your Notifications.
                             </Text>
                         </View>
                     </Card>
