@@ -28,6 +28,11 @@ export default function HomePage({navigation}){
         navigation.navigate('ViewRegistration')
          //console.log(navigation)
      }
+     const onPress5 = () => {
+        //console.log(navigation)
+        navigation.navigate('Index')
+         //console.log(navigation)
+     }
 
     return(
     <View style =  {styles.container}r>
@@ -61,6 +66,12 @@ export default function HomePage({navigation}){
         <TouchableOpacity onPress={onPress4}>
             <View style={styles.button}>
                 <Text style={styles.buttonText}>View Registration</Text>
+            </View>
+        </TouchableOpacity>
+        <View style={styles.space} />
+        <TouchableOpacity onPress={onPress5}>
+            <View style={styles.button}>
+                <Text style={styles.buttonText}>Logout</Text>
             </View>
         </TouchableOpacity>
         

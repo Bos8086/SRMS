@@ -3,7 +3,9 @@ import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback,
 import { Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
+
 // import { useNavigation } from '@react-navigation/native';
+
 
 
 const reviewSchema = yup.object({
@@ -49,10 +51,12 @@ export default function SigninForm({navigationValue}){
                         placeholder='Password'
                         onChangeText={formikprops.handleChange('password')}
                         value={formikprops.values.password}
+                
+                    
                     /> 
                      <Text style = {styles.error}>{formikprops.errors.password}</Text>
 
-
+                     <View style={styles.space} />
                 <FlatButton text ='Login' onPress={formikprops.handleSubmit}/>
                 <TouchableOpacity onPress={() => {
                     Home()
@@ -89,9 +93,14 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         textAlign: "center"
     },
+    space:{
+        height:10,
+        width:30
+    },
     error:{
         fontSize:10,
-        fontWeight:"bold"
+        fontWeight:"bold",
+        color:"red",
     },
     
     fpassword:{

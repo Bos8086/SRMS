@@ -1,15 +1,17 @@
 // import { createDrawerNavigator } from "react-navigation-drawer";
-// import { createAppContainer } from "react-navigation";
+// //import { createAppContainer } from "react-navigation";
 // import CourseRegistration from "../screens/CourseRegistration";
 // import Profile from "../screens/Profile";
 // import ViewRegistration from "../screens/ViewRegistration";
 // import Settings from '../screens/Settings';
 // import HomePage from "../screens/HomePage";
 // import BioData from "../screens/BioData";
+// import appStack from "./appStack";
+// import indexStack from "./indexStack";
 
 // const RootDrawerNavigator = createDrawerNavigator({
-//     Homepage: {
-//         screen: HomePage
+//     Home: {
+//         screen: indexStack
 //     },
 //     CourseRegistration:{
 //         screen: CourseRegistration
@@ -28,6 +30,6 @@
 //     }
 // });
 
-// //const Stack = createStackNavigator(screens);
+// const Stack = createDrawerNavigator(screens);
 
 // //export default createAppContainer(RootDrawerNavigator);

@@ -11,6 +11,7 @@ import CourseRegistration from '../screens/CourseRegistration';
 import BioData from '../screens/BioData';
 import Settings from '../screens/Settings';
 import ViewRegistration from '../screens/ViewRegistration';
+import appStack from './appStack';
 
 const screens = {
   
@@ -26,9 +27,15 @@ const screens = {
   
   Register:{
     screen: Register
+
   },HomePage:{
-    screen:HomePage,
+    screen: 
+    HomePage,
+    navigationOptions: {
+      gestureEnabled: false,
+      headerLeft:()=>false
     
+    }
   },
   Profile:{
     screen:Profile,
@@ -60,3 +67,4 @@ const Stack = createStackNavigator(screens);
 
 export default createAppContainer(Stack);
 
+//export default indexStack;
