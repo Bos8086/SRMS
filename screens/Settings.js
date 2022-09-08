@@ -39,12 +39,10 @@ export default function Settings({navigation}){
           justifyContent: 'space-between',
         },
     
-        header:{
-            
+        header:{           
             padding:40,
-            flex:0.2,
-            alignSelf:'flex-start'
-    
+            flex:0.3,
+            alignSelf:'flex-start'   
         },
         body:{
             flex:1,

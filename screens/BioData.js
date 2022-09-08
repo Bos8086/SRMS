@@ -29,7 +29,7 @@ export default function BioData(){
     
         header:{
             padding:40,
-            flex:0.5,
+            flex:0.3,
             alignSelf:'flex-start'
     
         },

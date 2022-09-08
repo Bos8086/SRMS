@@ -9,7 +9,6 @@ import SignupForm from './SignupForm';
 
 export default function Register({navigation}){
     return (
-      
         <TouchableWithoutFeedback onPress={() =>{
             Keyboard.dismiss();
             console.log('dismissed Keyboard');
@@ -22,7 +21,6 @@ export default function Register({navigation}){
               </ImageBackground>        
           </View>
         </TouchableWithoutFeedback>
-
       );
 };
 
