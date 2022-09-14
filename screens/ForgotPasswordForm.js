@@ -6,10 +6,11 @@ import * as yup from 'yup';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
+    JambNo: yup.string().required('No JambNo provided'),
     Password: yup.string()
     .required('No password provided') 
     .min(8,'Password is too short- Should be 8 chars minimum'),
-    NewPassword: yup.string()
+    confirmPassword: yup.string()
             .required('No password provided') 
             .min(8,'Password is too short- Should be 8 chars minimum')
 })
@@ -23,17 +24,23 @@ export default function ForgotPasswordForm({navigationValue}){
     return(         
         <View style>
             <Formik 
-            initialValues = {{ Password:'',NewPassword:''}}
+            initialValues = {{ JambNo:'',newPassword:'',confirmPassword:''}}
             validationSchema={reviewSchema}
             onSubmit = {(values) => {
                 navigationValue.navigate('Signin')
-
             } }            
             >
               {(formikprops) => (
                 <View >     
                     <Text style={styles.text}>Forgot Password</Text>
                     <Text style={styles.smalltext}>Please Re-Enter Password</Text>
+                    <TextInput
+                        style = {styles.input}
+                        placeholder='Enter JambNo'
+                        onChangeText={formikprops.handleChange('JambNo')}
+                        value={formikprops.values.JambNo}
+                    />
+                    <Text style = {styles.error}>{formikprops.errors.JambNo}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}
@@ -47,9 +54,9 @@ export default function ForgotPasswordForm({navigationValue}){
                         style = {styles.input}
                         placeholder='Re-Enter New Password'
                         onChangeText={formikprops.handleChange('NewPassword')}
-                        value={formikprops.values.NewPassword}
+                        value={formikprops.values.confirmPassword}
                     /> 
-                    <Text style = {styles.error}>{formikprops.errors.NewPassword}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
 
 
                 <FlatButton text ='RESET' onPress={formikprops.handleSubmit}/>

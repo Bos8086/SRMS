@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, ActivityIndicator, useState } from 'react-native';
 
 
 //const Drawer = createDrawerNavigator();
 
 export default function HomePage({navigation}){
+   
 
     
     
@@ -36,11 +37,14 @@ export default function HomePage({navigation}){
 
     return(
     <View style =  {styles.container}r>
+       
+
+
         <View style={styles.header}>
 
          {/* <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon}/>    */}
         <Image source={ require("../assets/logo.png")} style={styles.image}/>
-            <Text>  Welome Boma </Text> 
+            <Text>  Welome  </Text> 
         </View>
 
         <View style={styles.body}>

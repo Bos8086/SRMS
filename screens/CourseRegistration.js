@@ -3,10 +3,11 @@ import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } fr
 
 
 
-export default function CourseRegistration(){
+export default function CourseRegistration({navigation}){
 
-    const pressHandler = ()=>{
+    const onPress = ()=>{
             console.log('Course Registration')
+            navigation.navigate("HomePage")
     }
 
     return(
@@ -15,10 +16,19 @@ export default function CourseRegistration(){
             <Image source={ require("../assets/logo.png")} style={styles.image}/>
                 <Text>  Welome Boma </Text> 
             </View>
+
+
     
             <View style={styles.body}>
                 <Text style={styles.text}>Welcome to CourseRegistration</Text>
+                <TouchableOpacity onPress={onPress}>
+            <View style={styles.button}>
+                <Text style={styles.buttonText}>HomePage</Text>
             </View>
+        </TouchableOpacity>
+            </View>
+
+
     
     
         </View>

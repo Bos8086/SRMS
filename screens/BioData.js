@@ -1,19 +1,24 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity ,ScrollView} from 'react-native';
+import BioDataForm from './BioDataForm';
 
 
-export default function BioData(){
+
+export default function BioData({navigation}){
     return(
-        <View style =  {styles.container}r>
+        <View style =  {styles.container}>
+            <ScrollView style={styles.scrollView}>
             <View style={styles.header}>
             <Image source={ require("../assets/logo.png")} style={styles.image}/>
                 <Text>  Bio - Data Form</Text> 
+               
             </View>
     
             <View style={styles.body}>
                 <Text style={styles.text}>Welcome to BioData</Text>
+                <BioDataForm navigationValue={navigation}/>
             </View>
-    
+            </ScrollView>
     
         </View>
         )

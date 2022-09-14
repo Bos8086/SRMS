@@ -29,7 +29,7 @@ export default function ForgotPasswordForm({navigationValue}){
             initialValues = {{ OldPassword:'',Password:'',NewPassword:''}}
             validationSchema={reviewSchema}
             onSubmit = {(values) => {
-                navigationValue.navigate('HomePage')
+                navigationValue.navigate('Profile')
             } }            
             >
               {(formikprops) => (

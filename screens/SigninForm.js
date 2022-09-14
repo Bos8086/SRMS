@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
@@ -9,8 +9,8 @@ import * as yup from 'yup';
 
 
 const reviewSchema = yup.object({
-    username: yup.string()
-            .required('No MatricNo/Username provided')
+    jambNo: yup.string()
+            .required('No/Username provided')
             .min(4),
     password: yup.string()
             .required('No password provided') 
@@ -28,12 +28,58 @@ export default function SigninForm({navigationValue}){
     return(         
         <View style>
             <Formik 
-            initialValues = {{ username:'',password:''}}
+            initialValues = {{ jambNo:'',password:''}}
             validationSchema={reviewSchema}
             onSubmit = {(values) => {
-                navigationValue.navigate('HomePage')
-                //navigationValue.navigate('')
-            } }            
+                try {
+                    console.log(values, 'values');
+                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/login";
+                    var headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
+                        'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
+                        'x-source-code':'TEST'
+                      };
+
+                      fetch(InsertAPIURL,{
+                        method:'POST',
+                        headers:headers,
+                        body: JSON.stringify(values), //convert data to JSON
+                    })
+                
+                    .then((response)=>{
+                        const d = response.json();
+                        console.log(d, "here");
+                        return d;
+                    }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+                    .then((response)=>{
+                        const { message } = response;
+                        if (message == "Login Successful") {
+                            console.log("true")   
+                               
+                            navigationValue.navigate('HomePage');
+                          }
+                        
+                        
+                      alert(message);       // If data is in JSON => Display alert msg
+                     console.log(response);
+                      //alert(response[0].Message);       // If data is in JSON => Display alert msg
+                      //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
+                    }).catch(e=> console.log(e, "error"))
+                    
+                    }
+
+                    catch(error){
+                        console.log(error);
+                        alert("Error Occured" + ErrorMessage);
+                        
+                    }
+                  }
+                    
+                //console.log(values)
+                //navigationValue.navigate('Signin')
+            }  
             >
               {(formikprops) => (
                 <View >     
@@ -41,10 +87,10 @@ export default function SigninForm({navigationValue}){
                     <TextInput
                         style = {styles.input}
                         placeholder='Username'
-                        onChangeText={formikprops.handleChange('username')}
-                        value={formikprops.values.username}
+                        onChangeText={formikprops.handleChange('jambNo')}
+                        value={formikprops.values.jambNo}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.username}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.jambNo}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}
