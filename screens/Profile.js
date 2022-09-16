@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
+import Card from '../shared/card';
+import ProfileForm from './ProfileForm';
 
 
 export default function Profile(){
@@ -10,7 +12,11 @@ export default function Profile(){
                 <Text>  Profile </Text> 
             </View>
             <View style={styles.body}>
+                
                 <Text style={styles.text}>Welcome to Profile</Text>
+                    <Card>
+                        <ProfileForm />
+                    </Card>
             </View>
 
         </View>
@@ -27,12 +33,12 @@ export default function Profile(){
     
         header:{
             padding:40,
-            flex:0.5,
+            flex:0.2,
             alignSelf:'flex-start'
     
         },
         body:{
-            flex:0.5,
+            flex:0.9,
             alignItems: 'center',
         },
         text:{

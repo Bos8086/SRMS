@@ -2,31 +2,110 @@ import React, { useState } from 'react';
 import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import SigninForm from './SigninForm';
+import { secureGet } from '../ExternalVariables/storage';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
-    FirstName: yup.string().required('No MatricNo/Username provided'),
+    fName: yup.string().required('No MatricNo/Username provided'),
+    surName: yup.string().required('No Surname Provided'),
+    midName: yup.string().required('Please Provide middle name, type none if no middle name'),
+    jambNo: yup.string().required('JAMB NO required'),
+    dateOfBirth: yup.string().required('Please put date of birth'),
+    age: yup.string().required('No Age Provided'),
+    sex: yup.string().required('No Sex provided'),
+    mStatus: yup.string().required('No Marital Status given'),
+    faculty:yup.string().required('No Faculty provided'),
+    department:yup.string().required('No Department provided'),
+    address:yup.string().required('No Address provided'),
+    email:yup.string().required('No Email provided'),
+    phoneNo:yup.string().required('No phone Number provided'),
+    nationality:yup.string().required('No Nationality provided'),
+    religion:yup.string().required('No Religion provided'),
+    stOfOrg:yup.string().required('No State of Origin provided'),
+    lga:yup.string().required('No LGA provided'),
+    parName:yup.string().required('No Parent Name Provided'),
+    parAdd:yup.string().required('No Parent Address Provided'),
+    occName:yup.string().required('No Parent Occupation Provided'),
+    parEmail:yup.string().required('No Parent Email Provided'),
+    parNO:yup.string().required('No Parent Phone Number provided'),
+   
 })
 
 
 export default function BioDataForm({navigationValue}){
     
-
+    const [tok, setToke ]= useState("");
     const [signinValues,setSigninValues] = useState([])
     const getSigninDetails = (signinValues) => {<List />}
     return(         
         <View style>
             <Formik 
-            initialValues = {{ FirstName:'',SurName:'',MiddleName:'',JAMBRegNo:'',DOB:'',
-            Age:'',Sex:'',MarStatus:'',Faculty:'',Department:'',
-            Address:'',Email:'',PhoneNo:'',Nationality:'',Religion:'',
-            StofOrigin:'',LGA:'',ParentName:'',OccParent:'',ParAddress:'',
-            EmailParent:'',PhoneParent:''}}
+            initialValues = {{ fName:'',surName:'',midName:'',jambNo:'',dateOfBirth:'',
+            age:'',sex:'',mStatus:'',faculty:'',department:'',
+            address:'',email:'',phoneNo:'',nationality:'',religion:'',
+            stOfOrg:'',lga:'',parName:'',occName:'',parAdd:'',
+            parEmail:'',parNO:''}}
             validationSchema={reviewSchema}
 
-            onSubmit = {(values) => {
-                navigationValue.navigate("Profile")
-                console.log('presseda22')
+            onSubmit = {(values, { resetForm }) => {
+                try {
+                    secureGet('token', setToke);
+                    //const token = secureGet('token');
+                    console.log('here is token',tok);
+                    console.log(values, 'values');
+                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata";
+                    var headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
+                        // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
+                        // 'x-source-code':'TEST',
+                        'Authorization': 'Bearer ' +  tok
+                      };
+
+                      fetch(InsertAPIURL,{
+                        method:'POST',
+                        headers:headers,
+                        body: JSON.stringify(values), //convert data to JSON
+                    })
+                
+                    .then((response)=>{
+                        //const x = getLocal('TokenBearer')
+                        const d = response.json();
+                       // console.log(d, "here");
+                        //console.log(getLocal('TokenBearer'))
+                        return d;
+                        
+                        
+                    }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+                    .then((response)=>{
+                        const { message } = response;
+                        if (message == "Thank you") {
+                            console.log("true")           
+                            navigationValue.navigate("Profile");
+                            resetForm();
+                          }
+                        
+                        
+                      alert(message);       // If data is in JSON => Display alert msg
+    
+                      //alert(response[0].Message);       // If data is in JSON => Display alert msg
+                      //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
+                    }).catch(e=> console.log(e, "error"))
+                    
+                    }
+
+                    catch(error){
+                        console.log(error);
+                        alert("Error Occured");
+                        
+                    }
+                
+               
+                
+                
+                
             } }    
             >
               {(formikprops) => (
@@ -34,33 +113,33 @@ export default function BioDataForm({navigationValue}){
                     <TextInput
                         style = {styles.input}
                         placeholder='First Name'
-                        onChangeText={formikprops.handleChange('FirstName')}
-                        value={formikprops.values.FirstName}
+                        onChangeText={formikprops.handleChange('fName')}
+                        value={formikprops.values.fName}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.FirstName}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.fName}</Text>
                     <TextInput
                        
                         style = {styles.input}
                         placeholder='Surname'
-                        onChangeText={formikprops.handleChange('SurName')}
-                        value={formikprops.values.SurName}
+                        onChangeText={formikprops.handleChange('surName')}
+                        value={formikprops.values.surName}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.SurName}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.surName}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='Middle Name'
-                        onChangeText={formikprops.handleChange('MiddleName')}
-                        value={formikprops.values.MiddleName}
+                        onChangeText={formikprops.handleChange('midName')}
+                        value={formikprops.values.midName}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.FirstName}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.midName}</Text>
                     <TextInput
                         
                         style = {styles.input}
                         placeholder='JAMB Registration Number'
-                        onChangeText={formikprops.handleChange('JAMBRegNo')}
-                        value={formikprops.values.JAMBRegNo}
+                        onChangeText={formikprops.handleChange('jambNo')}
+                        value={formikprops.values.jambNo}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.JAMBRegNo}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.jambNo}</Text>
 
         
 
@@ -68,19 +147,19 @@ export default function BioDataForm({navigationValue}){
                      <TextInput
                         style = {styles.input}
                         placeholder='Date of Birth'
-                        onChangeText={formikprops.handleChange('DOB')}
-                        value={formikprops.values.DOB}
+                        onChangeText={formikprops.handleChange('dateOfBirth')}
+                        value={formikprops.values.dateOfBirth}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.DOB}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.dateOfBirth}</Text>
 
           
                     <TextInput
                         style = {styles.input}
                         placeholder='Age'
-                        onChangeText={formikprops.handleChange('Age')}
-                        value={formikprops.values.Age}
+                        onChangeText={formikprops.handleChange('age')}
+                        value={formikprops.values.age}
                     /> 
-                    <Text style = {styles.error}>{formikprops.errors.Age}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.age}</Text>
 
                  
 
@@ -89,10 +168,10 @@ export default function BioDataForm({navigationValue}){
                     <TextInput
                         style = {styles.input}
                         placeholder='Sex'
-                        onChangeText={formikprops.handleChange('Sex')}
-                        value={formikprops.values.Sex}
+                        onChangeText={formikprops.handleChange('sex')}
+                        value={formikprops.values.sex}
                     /> 
-                    <Text style = {styles.error}>{formikprops.errors.Sex}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.sex}</Text>
 
                    
                    
@@ -102,119 +181,120 @@ export default function BioDataForm({navigationValue}){
                     <TextInput
                         style = {styles.input}
                         placeholder='Marital Status'
-                        onChangeText={formikprops.handleChange('MarStatus')}
-                        value={formikprops.values.MarStatus}
+                        onChangeText={formikprops.handleChange('mStatus')}
+                        value={formikprops.values.mStatus}
                     /> 
-                    <Text style = {styles.error}>{formikprops.errors.MarStatus}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.mStatus}</Text>
                     
 
                
                      <TextInput
                         style = {styles.input}
                         placeholder='Faculty'
-                        onChangeText={formikprops.handleChange('Faculty')}
-                        value={formikprops.values.Faculty}
+                        onChangeText={formikprops.handleChange('faculty')}
+                        value={formikprops.values.faculty}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.Faculty}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.faculty}</Text>
                     <TextInput
                         style = {styles.input}
                         placeholder='Department'
-                        onChangeText={formikprops.handleChange('Department')}
-                        value={formikprops.values.Department}
+                        onChangeText={formikprops.handleChange('department')}
+                        value={formikprops.values.department}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.Department}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.department}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='Address'
-                        onChangeText={formikprops.handleChange('Address')}
-                        value={formikprops.values.Address}
+                        onChangeText={formikprops.handleChange('address')}
+                        value={formikprops.values.address}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.Address}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.address}</Text>
                     <TextInput
                         style = {styles.input}
                         placeholder='Email'
-                        onChangeText={formikprops.handleChange('Email')}
-                        value={formikprops.values.Email}
+                        onChangeText={formikprops.handleChange('email')}
+                        value={formikprops.values.email}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.Email}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.email}</Text>
 
                      <TextInput
                         style = {styles.input}
                         placeholder='Phone No'
-                        onChangeText={formikprops.handleChange('PhoneNo')}
-                        value={formikprops.values.PhoneNo}
+                        onChangeText={formikprops.handleChange('phoneNo')}
+                        value={formikprops.values.phoneNo}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.PhoneNo}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.phoneNo}</Text>
                     <TextInput
                         style = {styles.input}
                         placeholder='Nationality'
-                        onChangeText={formikprops.handleChange('Nationality')}
-                        value={formikprops.values.Nationality}
+                        onChangeText={formikprops.handleChange('nationality')}
+                        value={formikprops.values.nationality}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.Nationality}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.nationality}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='Religion'
-                        onChangeText={formikprops.handleChange('Religion')}
-                        value={formikprops.values.Religion}
+                        onChangeText={formikprops.handleChange('religion')}
+                        value={formikprops.values.religion}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.Religion}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.religion}</Text>
                     <TextInput
                         style = {styles.input}
                         placeholder='State of Origin'
-                        onChangeText={formikprops.handleChange('StofOrigin')}
-                        value={formikprops.values.StofOrigin}
+                        onChangeText={formikprops.handleChange('stOfOrg')}
+                        value={formikprops.values.stOfOrg}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.StofOrigin}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.stOfOrg}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='LGA'
-                        onChangeText={formikprops.handleChange('LGA')}
-                        value={formikprops.values.LGA}
+                        onChangeText={formikprops.handleChange('lga')}
+                        value={formikprops.values.lga}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.LGA}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.lga}</Text>
                     <TextInput
                         style = {styles.input}
                         placeholder='Parents/Guardians Name'
-                        onChangeText={formikprops.handleChange('ParentName')}
-                        value={formikprops.values.ParentName}
+                        onChangeText={formikprops.handleChange('parName')}
+                        value={formikprops.values.parName}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.ParentName}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.parName}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='Occupation of Parent/Guardian'
-                        onChangeText={formikprops.handleChange('OccParent')}
-                        value={formikprops.values.OccParent}
+                        onChangeText={formikprops.handleChange('occName')}
+                        value={formikprops.values.occName}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.OccParent}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.occName}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='Parent Address'
-                        onChangeText={formikprops.handleChange('ParAddress')}
-                        value={formikprops.values.ParAddress}
+                        onChangeText={formikprops.handleChange('parAdd')}
+                        value={formikprops.values.parAdd}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.ParAddress}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.parAdd}</Text>
                     <TextInput
                     
                         style = {styles.input}
                         placeholder='Parent/Guardian Email'
-                        onChangeText={formikprops.handleChange('EmailParent')}
-                        value={formikprops.values.EmailParent}
+                        onChangeText={formikprops.handleChange('parEmail')}
+                        value={formikprops.values.parEmail}
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.EmailParent}</Text>
+                     <Text style = {styles.error}>{formikprops.errors.parEmail}</Text>
                      <TextInput
                         style = {styles.input}
                         placeholder='Parent/Guardian Phone No'
-                        onChangeText={formikprops.handleChange('PhoneParent')}
-                        value={formikprops.values.PhoneParent}
+                        onChangeText={formikprops.handleChange('parNO')}
+                        value={formikprops.values.parNO}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.PhoneParent}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.parNO}</Text>
                     
                      <View style={styles.space} />
                 
 
 
-                    <TouchableOpacity onPress={formikprops.handleSubmit}>
+                    <TouchableOpacity onPress={formikprops.handleSubmit }>
+                        
                     <View style = {styles.savebutn}>
                         <Text style={styles.savedetails}>Save</Text>
                     </View>

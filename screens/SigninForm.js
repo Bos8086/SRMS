@@ -3,12 +3,14 @@ import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback,
 import { Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
+import { secureGet, secureSave } from '../ExternalVariables/storage'
 
 // import { useNavigation } from '@react-navigation/native';
 
-
+// const token = '';
 
 const reviewSchema = yup.object({
+    
     jambNo: yup.string()
             .required('No/Username provided')
             .min(4),
@@ -18,6 +20,8 @@ const reviewSchema = yup.object({
 })
 
 export default function SigninForm({navigationValue}){
+    
+    const [tok, setToke ]= useState("");
     const Home = () => {
       navigationValue.navigate('ForgotPassword')
     }
@@ -37,9 +41,9 @@ export default function SigninForm({navigationValue}){
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
-                        'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
-                        'x-source-code':'TEST'
+                        // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
+                        // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
+                        // 'x-source-code':'TEST'
                       };
 
                       fetch(InsertAPIURL,{
@@ -53,17 +57,21 @@ export default function SigninForm({navigationValue}){
                         console.log(d, "here");
                         return d;
                     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-                    .then((response)=>{
+                    .then(async (response)=>{
                         const { message } = response;
+                       const token = response.token;
+                       console.log("hello", token);
+                       secureSave('token' , token);
                         if (message == "Login Successful") {
-                            console.log("true")   
-                               
+                            console.log("true")           
                             navigationValue.navigate('HomePage');
                           }
-                        
+                         
+                          secureGet('token', setToke);
+                        console.log("hello2", tok);
                         
                       alert(message);       // If data is in JSON => Display alert msg
-                     console.log(response);
+                     
                       //alert(response[0].Message);       // If data is in JSON => Display alert msg
                       //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
                     }).catch(e=> console.log(e, "error"))
