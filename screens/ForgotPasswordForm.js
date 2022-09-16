@@ -7,7 +7,7 @@ import * as yup from 'yup';
 
 const reviewSchema = yup.object({
     JambNo: yup.string().required('No JambNo provided'),
-    Password: yup.string()
+    newPassword: yup.string()
     .required('No password provided') 
     .min(8,'Password is too short- Should be 8 chars minimum'),
     confirmPassword: yup.string()
@@ -27,7 +27,50 @@ export default function ForgotPasswordForm({navigationValue}){
             initialValues = {{ JambNo:'',newPassword:'',confirmPassword:''}}
             validationSchema={reviewSchema}
             onSubmit = {(values) => {
-                navigationValue.navigate('Signin')
+                try {
+                    console.log(values, 'values');
+                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/reset_password";
+                    var headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
+                        // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
+                        // 'x-source-code':'TEST'
+                      };
+
+                      fetch(InsertAPIURL,{
+                        method:'POST',
+                        headers:headers,
+                        body: JSON.stringify(values), //convert data to JSON
+                    })
+                
+                    .then((response)=>{
+                        const d = response.json();
+                        console.log(d, "here");
+                        return d;
+                    }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+                    .then((response)=>{
+                        const { message } = response;
+                        if (message == "Password successfully Reset") {
+                            console.log("true")           
+                            navigationValue.navigate('Signin');
+                          }
+                        
+                        
+                      alert(message);       // If data is in JSON => Display alert msg
+    
+                      //alert(response[0].Message);       // If data is in JSON => Display alert msg
+                      //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
+                    }).catch(e=> console.log(e, "error"))
+                    
+                    }
+
+                    catch(error){
+                        console.log(error);
+                        alert("Error Occured" + ErrorMessage);
+                        
+                    }
+                
             } }            
             >
               {(formikprops) => (
@@ -45,19 +88,18 @@ export default function ForgotPasswordForm({navigationValue}){
                         secureTextEntry = {true}
                         style = {styles.input}
                         placeholder='Enter New Password'
-                        onChangeText={formikprops.handleChange('Password')}
-                        value={formikprops.values.Password}
+                        onChangeText={formikprops.handleChange('newPassword')}
+                        value={formikprops.values.newPassword}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.Password}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.newPassword}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}
-                        placeholder='Re-Enter New Password'
-                        onChangeText={formikprops.handleChange('NewPassword')}
+                        placeholder='Confirm Password'
+                        onChangeText={formikprops.handleChange('confirmPassword')}
                         value={formikprops.values.confirmPassword}
-                    /> 
+                    />
                     <Text style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
-
 
                 <FlatButton text ='RESET' onPress={formikprops.handleSubmit}/>
             
