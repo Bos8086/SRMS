@@ -1,13 +1,16 @@
 import { View , Text } from "react-native";
-import React, { useState } from 'react';
+import  { useState }  from 'react';
 import { secureGet } from '../ExternalVariables/storage';
+import { StyleSheet } from "react-native";
+
 
 export default function ProfileForm({}){
+    const [message, setMessage]  = useState({});
     try {
 
         const [tok, setToke ]= useState("");
         secureGet('token', setToke);
-        const values = {jambNo : "20192019"};
+        const values = {jambNo : "20302030"};
        
         var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/profile";
         var headers = {
@@ -31,7 +34,12 @@ export default function ProfileForm({}){
             return d;
         }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
         .then((response)=>{
-            const { message } = response;
+            setMessage(response);
+            // console.log(response);
+            
+            
+
+
             
             // if (message == "Password successfully Reset") {
             //     console.log("true")           
@@ -39,7 +47,9 @@ export default function ProfileForm({}){
             //   }
             
             
-          alert(message);       // If data is in JSON => Display alert msg
+          //alert(message);   
+
+              // If data is in JSON => Display alert msg
 
           //alert(response[0].Message);       // If data is in JSON => Display alert msg
           //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
@@ -54,12 +64,27 @@ export default function ProfileForm({}){
         }
 
     return(
+        
 
         <View>
-            <Text>
-                These are profile details
-                
-            </Text>
+            <Text style =  {styles.text}>First Name : { message.fname}</Text>
+            <Text style =  {styles.text}>Surname : { message.surName}</Text>
+            <Text style =  {styles.text}>Middle Name : { message.midName}</Text>
+            <Text style =  {styles.text}> Sex :  { message.sex}</Text>
+            <Text style =  {styles.text}>Faculty : { message.faculty}</Text>
+            <Text style =  {styles.text}>Department : { message.department}</Text>
+            <Text style =  {styles.text}>dateOfBirth : { message.dateOfBirth}</Text>
+            <Text style =  {styles.text}>LGA : { message.lga}</Text>
+            <Text style =  {styles.text}>State Of Origin : { message.stOfOrg}</Text>
+            <Text style =  {styles.text}>Age : { message.age}</Text>
         </View>
     )
 };
+
+const styles = StyleSheet.create({
+      text:{
+        fontSize:20,
+        fontWeight:"bold",
+        textAlign: "left"
+    }  
+});

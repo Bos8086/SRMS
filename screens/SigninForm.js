@@ -22,6 +22,7 @@ const reviewSchema = yup.object({
 export default function SigninForm({navigationValue}){
     
     const [tok, setToke ]= useState("");
+    const [regNo,setRegNo] = useState("");
     const Home = () => {
       navigationValue.navigate('ForgotPassword')
     }
@@ -60,15 +61,20 @@ export default function SigninForm({navigationValue}){
                     .then(async (response)=>{
                         const { message } = response;
                        const token = response.token;
+                       const number = response.jambNo;
+
                        console.log("hello", token);
                        secureSave('token' , token);
+                       secureSave('JAMBNO',number)
                         if (message == "Login Successful") {
                             console.log("true")           
                             navigationValue.navigate('HomePage');
                           }
                          
                           secureGet('token', setToke);
+                          secureGet('JAMBNO',setRegNo);
                         console.log("hello2", tok);
+                        console.log("hello3",regNo)
                         
                       alert(message);       // If data is in JSON => Display alert msg
                      
