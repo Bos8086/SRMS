@@ -13,7 +13,9 @@ export async function secureGet(key: string, funcTodo: any) {
   }
 
   if (result) {
-    console.log(`🔐 Here's your value 🔐 \n${result}`);
+    // console.log('--testing---');
+    // console.log(`🔐 Here's your value 🔐 \n${result}`);
+    return;
   } else {
     console.log('No values stored under that key.');
   }

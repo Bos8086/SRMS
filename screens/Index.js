@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native';
 
 export default function Index({navigation}){
-    console.log(navigation);
+
 const pressHandler = () => {
     navigation.navigate('Register')
 }

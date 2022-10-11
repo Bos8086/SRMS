@@ -30,7 +30,7 @@ export default function ProfileForm({}){
     
         .then((response)=>{
             const d = response.json();
-            console.log(d, "here");
+           // console.log(d, "here");
             return d;
         }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
         .then((response)=>{

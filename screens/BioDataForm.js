@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import SigninForm from './SigninForm';
 import { secureGet } from '../ExternalVariables/storage';
+import { launchImageLibrary } from 'react-native-image-picker';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
@@ -29,7 +30,7 @@ const reviewSchema = yup.object({
     occName:yup.string().required('No Parent Occupation Provided'),
     parEmail:yup.string().required('No Parent Email Provided'),
     parNO:yup.string().required('No Parent Phone Number provided'),
-   
+    //picture: yup.string().required('File has not been uploaded')
 })
 
 
@@ -45,7 +46,7 @@ export default function BioDataForm({navigationValue}){
             age:'',sex:'',mStatus:'',faculty:'',department:'',
             address:'',email:'',phoneNo:'',nationality:'',religion:'',
             stOfOrg:'',lga:'',parName:'',occName:'',parAdd:'',
-            parEmail:'',parNO:''}}
+            parEmail:'',parNO:'',picture:'',}}
             validationSchema={reviewSchema}
 
             onSubmit = {(values, { resetForm }) => {
@@ -109,7 +110,41 @@ export default function BioDataForm({navigationValue}){
             } }    
             >
               {(formikprops) => (
-                <View >     
+                <View > 
+                     <Text>Photo:</Text>
+                     <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={{
+                    backgroundColor: '#04b040',
+                    borderRadius: 15,
+                  paddingHorizontal: 15,
+                  paddingVertical: 5,
+                  alignItems: 'center',
+                  shadowColor: '#E67E22',
+                  shadowOpacity: 0.8,
+                  elevation: 8
+                }}
+                onPress={() => {
+                    launchImageLibrary(options, (response) => {
+                    if (response.uri) {
+                      let data = {
+                        name: response.fileName,
+                        type: response.type,
+                        // uri:
+                        //   Platform.OS === 'android'
+                        //   ? response.uri
+                        //   : response.uri.replace('file://', ''),
+                      };
+                      formikprops.setFieldValue('picture', data);
+                    }
+                  });
+                }}
+              >
+                <Text>Open</Text>
+              </TouchableOpacity>
+
+
+
                     <TextInput
                         style = {styles.input}
                         placeholder='First Name'
@@ -288,6 +323,7 @@ export default function BioDataForm({navigationValue}){
                         value={formikprops.values.parNO}
                     />
                     <Text style = {styles.error}>{formikprops.errors.parNO}</Text>
+                    
                     
                      <View style={styles.space} />
                 

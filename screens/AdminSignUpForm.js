@@ -1,44 +1,38 @@
-import React, { useState } from 'react';
-import { StyleSheet, Button , TextInput , View , Text, TouchableOpacity } from 'react-native';
+import React from "react";
+import { StyleSheet, Button , TextInput , View , Text, TouchableOpacity } from "react-native";
 import { ErrorMessage, Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
 
-const reviewSchema = yup.object({
-    jambNo: yup.string()
-            .required('No MatricNo/Username provided')
-            .min(4,'Matric no is more than 4 chars'),
-    level: yup.string()
-            .required( ' NO level provided'),
-    department:yup.string()
-                .required('No password provided'),
-    password: yup.string()
-                .required('No password provided')
-                .min(8,'Password is too short- Should be 8 chars minimum'),
-    confirmPassword: yup.string()
-        .required('Please retype your password.')
-        .oneOf([yup.ref('password')], 'Your passwords do not match.'),
-    email: yup.string()
-    .required('No Email Provided')
-    .email()
-                
-})
+
+export default function AdminSignUpForm({navigationValue}){
+    const login = () => {
+        navigationValue.navigate('AdminPageLogin')
+      }
+
+    const reviewSchema = yup.object({
+        fname: yup.string()
+                .required('First Name not provided'),
+        username: yup.string()
+                .required('Username is not provided'),
+        password: yup.string()
+                    .required('No password provided')
+                    .min(8,'Password is too short- Should be 8 chars minimum'),
+        confirmPassword: yup.string()
+            .required('Please retype your password.')
+            .oneOf([yup.ref('password')], 'Your passwords do not match.'),             
+    })
 
 
-export default function SignupForm({navigationValue}){
-
-    
-   
     return(
-        <View style >
+        <View>
             <Formik 
-            initialValues = {{jambNo:'',level:'',department:'',password:'',confirmPassword:'',email:''}}
+            initialValues = {{fname:'',username:'',password:'',confirmPassword:''}}
             validationSchema = {reviewSchema}
             onSubmit = {(values) => {
                 try {
                     console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/register";
-                    //var InsertAPIURL = "https://127.0.0.1:9021/api/v1/student/register";
+                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/register";
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -57,9 +51,9 @@ export default function SignupForm({navigationValue}){
                     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                     .then((response)=>{
                         const { message } = response;
-                        if (message == "Thank you for registering") {
+                        if (message == "Admin has registered") {
                             console.log("true")
-                            navigationValue.navigate('Signin');
+                            navigationValue.navigate('AdminPageLogin');
                           }
                           alert(message);       // If data is in JSON => Display alert msg
                           console.log(response);
@@ -74,44 +68,25 @@ export default function SignupForm({navigationValue}){
                         alert("Error Occured" + ErrorMessage);
                         
                     }
-                  }
-                    
-                //console.log(values)
-                //navigationValue.navigate('Signin')
-            }             
+                  }}             
             >
               {(formikprops) => (
                 <View >
                     <Text style={styles.text}>SIGN UP</Text>
                     <TextInput
                         style = {styles.input}
-                        placeholder='MatricNo. /JAMB Reg'
-                        onChangeText={formikprops.handleChange('jambNo')}
-                        value={formikprops.values.jambNo}
+                        placeholder='First Name'
+                        onChangeText={formikprops.handleChange('fname')}
+                        value={formikprops.values.fname}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.jambNo}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.fname}</Text>
                     <TextInput                       
                         style = {styles.input}
-                        placeholder='LEVEL'
-                        onChangeText={formikprops.handleChange('level')}
-                        value={formikprops.values.level}
-                        
+                        placeholder='Username'
+                        onChangeText={formikprops.handleChange('username')}
+                        value={formikprops.values.username}
                     /> 
-                    <Text style = {styles.error}>{formikprops.errors.level}</Text>
-                    <TextInput
-                        style = {styles.input}
-                        placeholder='Department'
-                        onChangeText={formikprops.handleChange('department')}
-                        value={formikprops.values.department}
-                    />
-                    <Text style = {styles.error}>{formikprops.errors.department}</Text>
-                    <TextInput
-                        style = {styles.input}
-                        placeholder='Email'
-                        onChangeText={formikprops.handleChange('email')}
-                        value={formikprops.values.email}
-                    />
-                    <Text style = {styles.error}>{formikprops.errors.email}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.username}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}
@@ -130,13 +105,20 @@ export default function SignupForm({navigationValue}){
                     <Text style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
 
                 <FlatButton style={styles.button} text ='SIGN IN' onPress={formikprops.handleSubmit}/>
+                <TouchableOpacity onPress={() => {
+                    login()
+                            }}>
+                    <View style = {styles.loginbtn}>
+                        <Text style={styles.login}>'Already have a Login? , Click here'</Text>
+                    </View>
+                </TouchableOpacity>
+
                 </View>
               )}
             </Formik>
         </View>
     )
-};
-
+}
 
 const styles = StyleSheet.create( {
     input: {
@@ -162,8 +144,18 @@ const styles = StyleSheet.create( {
         borderRadius: 8,
         paddingVertical: 14,
         paddingHorizontal: 10,
-        backgroundColor: '#E66464',
+        backgroundColor: '#DA1313',
         borderColor: "#AA0E0F",
         borderWidth: 1
+    },
+    login:{
+        fontSize:20,
+        fontWeight:"bold",
+        textAlign: "center"
+        
+    },
+    loginbtn:{
+        alignSelf:'flex-start',
+        alignItems:'flex-start'
     }
 });
