@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity, Alert } from 'react-native';
 import { Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
+import { secureGet,secureSave } from '../ExternalVariables/storage';
+import axios from 'axios';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
@@ -19,6 +21,21 @@ const reviewSchema = yup.object({
 
 
 export default function ForgotPasswordForm({navigationValue}){
+const [tok,setTok] = useState("");
+const [regNo,setRegNo] = useState("");
+const [message,setMessage] = useState();
+
+
+secureGet('token', setTok);
+secureGet('JAMBNO', setRegNo);
+const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/change_password";
+
+
+
+
+
+   
+
     
 
     const [signinValues,setSigninValues] = useState([])
@@ -28,8 +45,48 @@ export default function ForgotPasswordForm({navigationValue}){
             <Formik 
             initialValues = {{ OldPassword:'',Password:'',NewPassword:''}}
             validationSchema={reviewSchema}
-            onSubmit = {(values) => {
-                navigationValue.navigate('Profile')
+            onSubmit = {(values, { resetForm }) => {
+                
+
+                    const body = {
+                        currentPassword:values.OldPassword,
+                        jambNo:regNo,
+                        newPassword:values.Password,
+                        confirmPassword:values.NewPassword
+                    }
+            
+                    var headers = {
+                        'Accept': 'application/json',
+                       'Content-Type': 'application/json' ,
+                       'Authorization': 'Bearer ' +  tok,
+                     };
+            
+                     const changePassword = async() => {
+                        console.log("body : ",body);
+                        await axios.create({headers}).post(ChangePasswordUrl,body)
+                        .then((res)=>{
+                            console.log("response" ,res?.data);
+                            setMessage(res?.data);
+                            Alert.alert(res?.data.message);
+                            resetForm();
+                            
+                           
+                            
+                    })
+                    .catch((err)=>{
+                        console.error(err);
+                    });
+
+                        
+                     };
+
+                     if (tok,regNo){
+                        changePassword();
+                    };
+                
+            
+                
+                
             } }            
             >
               {(formikprops) => (
