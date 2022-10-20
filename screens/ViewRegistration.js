@@ -57,7 +57,7 @@ const onRefresh = useCallback(() => {
                 .then((res) => {
                     console.log("response", res?.data)
                     setResponse(res?.data);
-                    console.log("response : ",response.message)                    
+                    console.log("response : ",response)                    
                     Alert.alert(res?.data?.message);
                     GetCourseByRegNo();
                 })
