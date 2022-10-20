@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback, TouchableOpacity, Alert } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import SigninForm from './SigninForm';
+import axios from 'axios';
 import { secureGet } from '../ExternalVariables/storage';
-import { launchImageLibrary } from 'react-native-image-picker';
+// import { launchImageLibrary, showImagePicker} from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
@@ -12,7 +13,7 @@ const reviewSchema = yup.object({
     surName: yup.string().required('No Surname Provided'),
     midName: yup.string().required('Please Provide middle name, type none if no middle name'),
     jambNo: yup.string().required('JAMB NO required'),
-    dateOfBirth: yup.string().required('Please put date of birth'),
+    dateOfBirth: yup.string().required('Please put date of birth in the Format : DD-MM-YYYY'),
     age: yup.string().required('No Age Provided'),
     sex: yup.string().required('No Sex provided'),
     mStatus: yup.string().required('No Marital Status given'),
@@ -30,13 +31,22 @@ const reviewSchema = yup.object({
     occName:yup.string().required('No Parent Occupation Provided'),
     parEmail:yup.string().required('No Parent Email Provided'),
     parNO:yup.string().required('No Parent Phone Number provided'),
-    //picture: yup.string().required('File has not been uploaded')
+    //picture: yup.string().required('File has not been uploaded'),
 })
 
 
 export default function BioDataForm({navigationValue}){
+   //const InsertAPIURL = "http://127.0.0.1:9021/api/v1/student/save_biodata";
+   const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata"; 
+    
+
+
     
     const [tok, setToke ]= useState("");
+    const [message,setMessage] = useState("");
+    const [fileName,setfilename] = useState("");
+    const [uri,setUri] = useState("");
+    secureGet('token', setToke);
     const [signinValues,setSigninValues] = useState([])
     const getSigninDetails = (signinValues) => {<List />}
     return(         
@@ -46,105 +56,176 @@ export default function BioDataForm({navigationValue}){
             age:'',sex:'',mStatus:'',faculty:'',department:'',
             address:'',email:'',phoneNo:'',nationality:'',religion:'',
             stOfOrg:'',lga:'',parName:'',occName:'',parAdd:'',
-            parEmail:'',parNO:'',picture:'',}}
+            parEmail:'',parNO:'',picture: ''}}
             validationSchema={reviewSchema}
 
             onSubmit = {(values, { resetForm }) => {
-                try {
-                    secureGet('token', setToke);
-                    //const token = secureGet('token');
-                    console.log('here is token',tok);
-                    console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata";
-                    var headers = {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
-                        // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
-                        // 'x-source-code':'TEST',
-                        'Authorization': 'Bearer ' +  tok
-                      };
+                // try {
+                //     secureGet('token', setToke);
+                //     //const token = secureGet('token');
+                //     console.log('here is token',tok);
+                //     console.log(values, 'values');
+                //     var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata";
+                //     var headers = {
+                //         'Accept': 'application/json',
+                //          'Content-Type': 'multipart/form-data' ,
+                //                 'Authorization': 'Bearer ' +  tok,
+                //       };
 
-                      fetch(InsertAPIURL,{
-                        method:'POST',
-                        headers:headers,
-                        body: JSON.stringify(values), //convert data to JSON
-                    })
+                //       fetch(InsertAPIURL,{
+                //         method:'POST',
+                //         headers:headers,
+                //         body: JSON.stringify(values) //convert data to JSON
+                //     })
                 
-                    .then((response)=>{
-                        //const x = getLocal('TokenBearer')
-                        const d = response.json();
-                       // console.log(d, "here");
-                        //console.log(getLocal('TokenBearer'))
-                        return d;
+                //     .then((response)=>{
+                //         //const x = getLocal('TokenBearer')
+                //         const d = response.json();
+                //        // console.log(d, "here");
+                //         //console.log(getLocal('TokenBearer'))
+                //         return d;
                         
                         
-                    }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-                    .then((response)=>{
-                        const { message } = response;
-                        if (message == "Thank you") {
-                            console.log("true")           
-                            navigationValue.navigate("Profile");
-                            resetForm();
-                          }
+                //     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+                //     .then((response)=>{
+                //         const { message } = response;
+                //         console.log(response)
+                //         if (message == "Thank you") {
+                //             console.log("true")           
+                //             navigationValue.navigate("Profile");
+                //           
+                //           }
                         
                         
-                      alert(message);       // If data is in JSON => Display alert msg
+                //       alert(message);       // If data is in JSON => Display alert msg
     
-                      //alert(response[0].Message);       // If data is in JSON => Display alert msg
-                      //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
-                    }).catch(e=> console.log(e, "error"))
+                //       //alert(response[0].Message);       // If data is in JSON => Display alert msg
+                //       //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
+                //     }).catch(e=> console.log(e, "error"))
                     
-                    }
+                //     }
 
-                    catch(error){
-                        console.log(error);
-                        alert("Error Occured");
+                //     catch(error){
+                //         console.log(error);
+                //         alert("Error Occured");
                         
-                    }
+                //     }
+
+
+                
+
+                
+
+                    const savetobiodata = async() => {
+                        const form = new FormData();
+                        form.append('picture',values.picture);
+                        form.append('jambNo',values.jambNo);
+                        form.append('fName',values.fName);
+                        form.append('parNO',values.parNO);
+                        form.append('parAdd',values.parAdd);
+                        form.append('parName',values.parName);
+                        form.append('address',values.address);
+                        form.append('age',values.age);
+                        form.append('dateOfBirth',values.dateOfBirth);
+                        form.append('department',values.department);
+                        form.append('email',values.email);
+                        form.append('lga',values.lga);
+                        form.append('mStatus',values.mStatus);
+                        form.append('sex',values.sex);
+                        form.append('faculty',values.faculty);
+                        form.append('nationality',values.nationality);
+                        form.append('surName',values.surName);
+                        form.append('religion',values.religion);
+                        form.append('parEmail',values.parEmail);
+                        form.append('phoneNo',values.phoneNo);
+                        form.append('stOfOrg',values.stOfOrg);
+                        form.append('occName',values.occName);
+                        form.append('midName',values.midName);
+                        //console.log(" form = " ,form);
+                     
+                        var headers = {
+                             'Accept': 'application/json',
+                            'Content-Type': 'application/json' ,
+                            'Authorization': 'Bearer ' +  tok,
+                          };
+                          
+                          
+                          //console.log(" BiomedPicFinal ",values.uri);
+                          //console.log("values",values)
+                        
+                          
+            
+                        
+                        await axios.create({headers}).post(InsertAPIURL,values)
+                        .then((res)=>{
+                            console.log("pressed biodata  and here")
+                                console.log("response" ,res?.data);
+                                setMessage(res?.data);
+                                Alert.alert(res?.data.message);
+
+                                if(message=="Thank you"){
+                                    resetForm();
+                                }
+                               
+                                
+                        })
+                        .catch((err)=>{
+                                console.error(err);
+                        });
+                
+                        };
+                
+                        if (tok){
+                            savetobiodata();
+                        };
+                }  
+
+
+
+                    
                 
                
                 
                 
                 
-            } }    
+            }     
             >
               {(formikprops) => (
+
+                
                 <View > 
                      <Text>Photo:</Text>
                      <TouchableOpacity
                         activeOpacity={0.5}
                         style={{
-                    backgroundColor: '#04b040',
-                    borderRadius: 15,
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  alignItems: 'center',
-                  shadowColor: '#E67E22',
-                  shadowOpacity: 0.8,
-                  elevation: 8
+                            padding:10,
+                            backgroundColor: '#ddd',
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            fontSize:20,
+                            width: '100%',
                 }}
-                onPress={() => {
-                    launchImageLibrary(options, (response) => {
-                    if (response.uri) {
-                      let data = {
-                        name: response.fileName,
-                        type: response.type,
-                        // uri:
-                        //   Platform.OS === 'android'
-                        //   ? response.uri
-                        //   : response.uri.replace('file://', ''),
-                      };
-                      formikprops.setFieldValue('picture', data);
+
+                onPress =
+                
+                {
+                    async () => {
+                    let pickerResult = await ImagePicker.launchImageLibraryAsync(
+                        {base64: true,
+                         quality: 1,}
+                        
+                    );
+                    if (pickerResult.cancelled === true) {
+                    return;
                     }
-                  });
+                    setUri(pickerResult.uri);
+                    formikprops.setFieldValue('picture', pickerResult.base64)
+                    console.log(pickerResult.base64);
                 }}
               >
-                <Text>Open</Text>
+                <Text>Upload A photo</Text>
               </TouchableOpacity>
-
-
-
+              <Text style = {styles.error}>{formikprops.errors.picture}</Text>
                     <TextInput
                         style = {styles.input}
                         placeholder='First Name'
@@ -168,17 +249,15 @@ export default function BioDataForm({navigationValue}){
                     />
                     <Text style = {styles.error}>{formikprops.errors.midName}</Text>
                     <TextInput
+
                         
                         style = {styles.input}
                         placeholder='JAMB Registration Number'
                         onChangeText={formikprops.handleChange('jambNo')}
                         value={formikprops.values.jambNo}
                     /> 
+
                      <Text style = {styles.error}>{formikprops.errors.jambNo}</Text>
-
-        
-
-                    
                      <TextInput
                         style = {styles.input}
                         placeholder='Date of Birth'
@@ -373,7 +452,8 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         textAlign: "center"
     },
-    savedetails:{
+    savedetails:{ 
+    
         fontSize:20,
         fontWeight:"bold",
         textAlign: "center"
@@ -390,3 +470,44 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
 });
+
+
+// console.log("I have been clicked");
+
+// let options = {
+//     mediaType : 'photo',
+//     quality: 1,
+//     includeBased64: true,
+// };
+
+// try {
+//     console.log("hererere");
+//     showImagePicker(options, response => {
+//         console.log("am I here been clicked?");
+//         if(response?.didCancel){
+//             Alert.alert('Cancelled Image Selection');
+//         } else if(response?.errorCode == 'permission'){
+//             Alert.alert('permission not satisfied');
+//         }
+//         else if(response?.errorCode == 'others'){
+//             console.log("am I here been clicked?");
+//             Alert.alert(response?.errorMessage);
+//         }else if(response?.assets[0].fileSize > 2097152){
+//             Alert.alert(
+//                 "Maximum Image size exceeded",
+//                 "Please choose image under 2MB",
+//                 [{text:"ok"}],
+//             );
+//         }
+        
+//         else {
+//             //setPic(response?.assets[0].base64);
+//             formikprops.setFieldValue('picture', response?.assets[0].base64);
+//         }
+//     });
+    
+// } catch (error) {
+//     console.log("am I here been? ereere");
+//     Alert.alert("Error" + error)
+    
+// };

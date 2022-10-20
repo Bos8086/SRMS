@@ -23,6 +23,8 @@ export default function SigninForm({navigationValue}){
     
     const [tok, setToke ]= useState("");
     const [regNo,setRegNo] = useState("");
+    const [Depts,setDept] = useState("");
+    const [levels,setLevel] = useState("");
     
     const Home = () => {
       navigationValue.navigate('ForgotPassword')
@@ -43,9 +45,7 @@ export default function SigninForm({navigationValue}){
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
-                        // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
-                        // 'x-source-code':'TEST'
+                        
                       };
 
                       fetch(InsertAPIURL,{
@@ -61,21 +61,37 @@ export default function SigninForm({navigationValue}){
                     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
                     .then(async (response)=>{
                         const { message } = response;
+                        console.log(response);
                        const token = response.token;
                        const number = response.jambNo;
+                       const dept = response.department;
+                       const level = response.level;
+
 
                        console.log("hello", token);
-                       secureSave('token' , token);
-                       secureSave('JAMBNO',number)
+
+                       
+
                         if (message == "Login Successful") {
+                            secureSave('token' , token);
+                            secureSave('JAMBNO',number);
+                            secureSave('Dept',dept);
+                            secureSave('Level',level);                           
                             console.log("true")           
                             navigationValue.navigate('HomePage');
                           }
-                         
+
                           secureGet('token', setToke);
                           secureGet('JAMBNO',setRegNo);
+                          secureGet('Dept',setDept);
+                          secureGet('Level',setLevel);
+                         
+                         
+
                         console.log("hello2", tok);
-                        console.log("hello3",regNo)
+                        console.log("hello3",regNo);
+                        console.log("hello4",Depts);
+                        console.log("hello5",levels);
                         
                       alert(message);       // If data is in JSON => Display alert msg
                      

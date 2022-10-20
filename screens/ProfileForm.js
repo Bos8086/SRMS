@@ -6,20 +6,22 @@ import { StyleSheet } from "react-native";
 
 export default function ProfileForm({}){
     const [message, setMessage]  = useState({});
-    try {
+    const[regNo,setRegNo] = useState("");
+    const [tok, setToke ]= useState("");
+    secureGet('token', setToke);
+    secureGet('JAMBNO', setRegNo);
+    
 
-        const [tok, setToke ]= useState("");
-        secureGet('token', setToke);
-        const values = {jambNo : "20302030"};
+    try {
+       
+        const values = {jambNo : regNo};
        
         var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/profile";
         var headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' +  tok
-            // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
-            // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
-            // 'x-source-code':'TEST'
+            
           };
 
           fetch(InsertAPIURL,{
@@ -35,24 +37,7 @@ export default function ProfileForm({}){
         }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
         .then((response)=>{
             setMessage(response);
-            // console.log(response);
             
-            
-
-
-            
-            // if (message == "Password successfully Reset") {
-            //     console.log("true")           
-            //     //navigationValue.navigate('Signin');
-            //   }
-            
-            
-          //alert(message);   
-
-              // If data is in JSON => Display alert msg
-
-          //alert(response[0].Message);       // If data is in JSON => Display alert msg
-          //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
         }).catch(e=> console.log(e, "error"))
         
         }
@@ -67,6 +52,8 @@ export default function ProfileForm({}){
         
 
         <View>
+            {!message  && (<View><Text>Please register for a course</Text></View>)}
+
             <Text style =  {styles.text}>First Name : { message.fname}</Text>
             <Text style =  {styles.text}>Surname : { message.surName}</Text>
             <Text style =  {styles.text}>Middle Name : { message.midName}</Text>

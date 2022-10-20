@@ -11,9 +11,9 @@ export default function LandingPage({navigation}){
         navigation.navigate('Index')
     }
 
-    const RedirectTeacher=() => {
-        navigation.navigate('Teacher')
-    }
+    // const RedirectTeacher=() => {
+    //     navigation.navigate('Teacher')
+    // }
     return(
         <View style = {styles.container}>
             <View style={styles.header}>
@@ -28,6 +28,7 @@ export default function LandingPage({navigation}){
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>Student</Text>
                 </View>
+                <View style={styles.space} />
             </TouchableOpacity>
             <View style={styles.space} />
             <TouchableOpacity onPress={RedirectAdmin}>
@@ -35,11 +36,11 @@ export default function LandingPage({navigation}){
                     <Text style={styles.buttonText}>Admin</Text>
                 </View>
              </TouchableOpacity>
-             <TouchableOpacity onPress={RedirectTeacher}>
+             {/* <TouchableOpacity onPress={RedirectTeacher}>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>Teacher</Text>
                 </View>
-             </TouchableOpacity>
+             </TouchableOpacity> */}
             
             </View>
 
@@ -90,5 +91,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
         fontSize: 20,
+    },
+    space:{
+        height:10,
+        width:30
     },
 })
