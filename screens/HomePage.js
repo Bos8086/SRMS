@@ -75,7 +75,7 @@ export default function HomePage({navigation}){
 
          
         <Image source={ require("../assets/logo.png")} style={styles.image}/>
-            <Text>  Welome  </Text> 
+            <Text>  Welome  {regNo}</Text> 
             
         </View>
 

@@ -1,157 +1,115 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, ActivityIndicator, useState, Alert, FlatList } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, ActivityIndicator, useState, Alert, FlatList, ScrollView } from 'react-native';
 import { ErrorMessage } from 'formik';
 import { secureGet } from '../ExternalVariables/storage';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-import { Avatar , Button} from 'react-native-paper';
+import { Avatar, Button } from 'react-native-paper';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
+import Card from '../shared/card';
+import AddDepartmentForm from './AddDepartmentForm';
+import { useIsFocused } from '@react-navigation/native';
 
 
-export default function AdminSubjectManagement({navigation}){
-    const [message, setMessage]  = React.useState({});
-    const [tok, setToke ]= React.useState("");
-    const [list,setlist] = React.useState([])
-    secureGet('token', setToke);
-    const CountAllAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";
-    const displayAllDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/display_dept";
-    var headers = {
+const CountAllAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";
+const displayAllDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/display_dept";
+
+
+
+
+export const countAllDepartments = async (tok,setMessage) => {
+    
+    let headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' +  tok
-      };
+        'Authorization': 'Bearer ' + tok
+    };
+    await axios.create({ headers }).get(CountAllAPIURL)
+        .then((res) => {
+            console.log("response", res?.data);
+            setMessage(res?.data);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+
+}
 
 
-      useEffect(  ()=> {
-    const countAllDepartments = async() => {
-        await axios.create({headers}).get(CountAllAPIURL)
-                    .then((res)=>{
-                        console.log("response" ,res?.data);
-                        setMessage(res?.data);
-                        
-                        
-                })
-                .catch((err)=>{
-                        console.error(err);
-                });
+export const displayAllDepartments = async (tok, setlist) => {
+     
+    let headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + tok
+    };
 
-                }
-        if (tok){
-            countAllDepartments();  
-        };
-
-
-    const displayAllDepartments = async() => {
-        await axios.create({headers}).get(displayAllDepartmentsAPIURL)
-        .then((res)=>{
+    await axios.create({ headers }).get(displayAllDepartmentsAPIURL)
+        .then((res) => {
             console.log("response", res?.data);
             setlist(res?.data);
         })
-        .catch((err)=>{
+        .catch((err) => {
             console.error(err);
         });
-    }
-    if (tok){
-        displayAllDepartments();  
-    };
 }
-    ,[tok]);
 
-    
-    // try {
-    //     secureGet('token', setToke);
-    //     const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";
-    //     var headers = {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json',
-    //         'Authorization': 'Bearer ' +  tok
-    //       };
 
-    //       fetch(InsertAPIURL,{
-    //         method:'GET',
-    //         headers:headers,
-    //         //body: JSON.stringify(values), //convert data to JSON
-    //     })
+export default function AdminSubjectManagement({ navigation }) {
+    const [message, setMessage] = React.useState({});
+    const [tok, setToke] = React.useState("");
+    const [list, setlist] = React.useState([])
+    const isFocused = useIsFocused();
+    secureGet('token', setToke);
+    // var headers = {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'Authorization': 'Bearer ' + tok
+    // };
 
-    //     .then((response)=>{
-    //         const d = response.json();
-    //         console.log(d, "here");
-    //         return d;
-    //     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-    //     .then((response)=>{
-    //         const { message } = response;
-    //         if (message == "Successful") {
-    //             console.log("true")
-    //           }
-    //           setMessage(response);
-    //       //alert(response[0].Message);       // If data is in JSON => Display alert msg
-    //       //navigationValue.navigate('Signin'); //Navigate to next screen if authentications are valid
-    //     }).catch(e=> console.log(e, "error"))
-        
-    //     }
+    useEffect(() => {
+      
+        if (tok) {
+            countAllDepartments(tok,setMessage);
+        };
 
-    //     catch(error){
-    //         console.log(error);
-    //         alert("Error Occured" + ErrorMessage);
-            
-    //     }
+        if (tok) {
+            displayAllDepartments(tok,setlist);
+        };
+
+        if (isFocused && tok) {
+            countAllDepartments(tok,setMessage);
+            displayAllDepartments(tok,setlist);
+        }
+    }, [tok, isFocused]);
 
 
 
-        // try {
-        //     secureGet('token', setToke);
-        //     const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/display_dept";
-        //     var headers = {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'Bearer ' +  tok
-        //       };
-    
-        //       fetch(InsertAPIURL,{
-        //         method:'GET',
-        //         headers:headers,
-        //         //body: JSON.stringify(values), //convert data to JSON
-        //     })
-        
-        //     .then((response)=>{
-        //         const d = response.json();
-        //         console.log(d, "here");
-        //         return d;
-        //     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-        //     .then((response)=>{
-        //         const { message } = response;
-        //         if (message == "Successful") {
-        //             console.log("true")
-        //           }
-        //           setlist(response);
-        //       //alert(response[0].Message);       // If data is in JSON => Display alert msg
-        //       //navigationValue.navigate('Signin'); //Navigate to next screen if authentications are valid
-        //     }).catch(e=> console.log(e, "error"))
-            
-        //     }
-    
-        //     catch(error){
-        //         console.log(error);
-        //         alert("Error Occured" + ErrorMessage);
-                
-        //     }
+    return (
+        <View style={styles.container}>
+            <ScrollView>
+                <View style={styles.body}>
+                    <Text style={styles.text}>Welcome to Subject Management</Text>
+                    <Text style={styles.text}>These are the Number of departments : {message.count}</Text>
+                    <Text style={styles.text}>These are The List of Departments : </Text>
+                    <FlatList
+                        keyExtractor={(item) => item.dept_id}
+                        data={list}
+                        renderItem={({ item }) => (
+                            <Text>{item.deptName}</Text>
+                        )}
+                    />
 
+                </View>
+                <Text style={styles.header}>
+                    Add a Department
+                </Text>
 
-    return(
-        <View style =  {styles.container}>
-             <View style={styles.body}>
-                <Text style={styles.text}>Welcome to Subject Management</Text>
-                <Text style={styles.text}>These are the Number of departments : {message.count}</Text>
-                <Text style={styles.text}>These are The List of Departments : </Text>
-                <FlatList
-                   keyExtractor={(item)=> item.dept_id}
-                    data={list}
-                    renderItem ={({item}) => (
-                        <Text>{item.deptName}</Text>
-                    )}
-                />
-                
-            </View>
+                <Card>
+                    < AddDepartmentForm />
+                </Card>
+            </ScrollView>
+
         </View>
     )
 }
@@ -165,14 +123,18 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
 
-    body:{
-        flex:0.75
+    body: {
+        flex: 0.75
     },
 
-    text:{
-        fontWeight: 'bold',
+    text: {
         fontSize: 20,
-        paddingBottom:30
+        paddingBottom: 30
     },
+    header: {
+        color: 'black',
+        fontWeight: 'bold',
+    },
+
 
 })

@@ -4,17 +4,20 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { secureGet, secureSave } from '../ExternalVariables/storage';
 import CourseRegistration from './CourseRegistration';
+import Card from '../shared/card';
+import AddCourseForm from './AddCourseForm'
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default function AdminCourseManagement({navigation}){
 
    const [message,setMessage] = React.useState([]);
-    const [Dept,setDept] = React.useState("");
+    const [dept,setDept] = React.useState("");
     const [tok,setTok] = React.useState("");
 
     const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course";
 
-    const values = {department_name:Dept};
+    const values = {department_name:dept};
     
 
 
@@ -34,12 +37,15 @@ export default function AdminCourseManagement({navigation}){
                     await axios.create({headers}).post(InsertAPIURL,values)
                     .then((res)=>{
                         console.log("response" ,res?.data);
-                        
-                        if(res?.data=="The Department does not exist"||"The Department does not have any courses"){
-                            Alert.alert(res?.data);
-                            return
-                        }
                         setMessage(res?.data);
+                        
+                        if(res?.data=="The Department does not exist"|| res?.data=="The Department does not have any courses"){
+                             Alert.alert(res?.data);
+                            return
+                        }else{
+            
+                        }
+                       
                         
                         
                 })
@@ -53,18 +59,23 @@ export default function AdminCourseManagement({navigation}){
                 };
 
 
+
             }
 
+            const emptyComponent = () => {
+                return <Text> There are no courses for this department</Text>
+            }
      
 
     return(
         <View style =  {styles.container}>
              <View style={styles.body}>
+                <ScrollView>
                 <Text style={styles.text}>Welcome to Course Management</Text>
                 <TextInput style={styles.TextInput}
                 placeholder='Enter a department'
-                onChangeText={Dept => setDept(Dept)}
-                Value={Dept}
+                onChangeText={(dept) => setDept(dept)}
+                Value={dept}
                 > Enter a Department 
                 </TextInput>
                 <TouchableOpacity onPress={searchDept}>
@@ -72,20 +83,27 @@ export default function AdminCourseManagement({navigation}){
                             <Text style={styles.buttonText}> Search </Text>
                         </View>
                 </TouchableOpacity>
-            <View>
+            
                 <Text>These are the list of courses of the department:</Text>
                 <Text style={styles.contentText}>
-                {!message  && (<View><Text>Please register for a course</Text></View>)}
-
                 <FlatList
                    keyExtractor={(item)=> item.courseId}
                     data={message}
                     renderItem ={({item}) => (
                         <Text>{item.courseCode} {item.courseName} {item.status} {item.unit} </Text>
                     )}
+                    ListEmptyComponent={emptyComponent}
                 />
                 </Text>
-            </View>
+                <Text style={styles.header}>
+                    ADD A COURSE
+                </Text>
+
+                <Card>
+                    <AddCourseForm />
+                </Card>
+            
+            </ScrollView>
             </View>
         </View>
     )
@@ -131,6 +149,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textTransform: 'uppercase',
         fontSize: 20,
+    },
+    header:{
+        color: 'black',
+        fontWeight: 'bold',
     }
 
 })

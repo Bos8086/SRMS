@@ -15,7 +15,7 @@ export default function AdminHomePage({navigation}){
     
     const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_students";
     
-    const counter = useMemo(()=>{return tok?.length}, [tok])
+   // const counter = useMemo(()=>{return tok?.length}, [tok])
   
     console.log("message", message);
 useEffect(  ()=> {
@@ -98,7 +98,7 @@ useEffect(  ()=> {
              <View style={styles.body}>
                 <Text style={styles.text}> Welcome to HomePage </Text>
                 <Text style={styles.text}>These are the number of Students : {message?.count}</Text>
-                <Text style={styles.text}> {counter} </Text>
+                
             </View>
         </View>
     )

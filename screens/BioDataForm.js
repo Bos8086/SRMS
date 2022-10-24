@@ -60,62 +60,6 @@ export default function BioDataForm({navigationValue}){
             validationSchema={reviewSchema}
 
             onSubmit = {(values, { resetForm }) => {
-                // try {
-                //     secureGet('token', setToke);
-                //     //const token = secureGet('token');
-                //     console.log('here is token',tok);
-                //     console.log(values, 'values');
-                //     var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata";
-                //     var headers = {
-                //         'Accept': 'application/json',
-                //          'Content-Type': 'multipart/form-data' ,
-                //                 'Authorization': 'Bearer ' +  tok,
-                //       };
-
-                //       fetch(InsertAPIURL,{
-                //         method:'POST',
-                //         headers:headers,
-                //         body: JSON.stringify(values) //convert data to JSON
-                //     })
-                
-                //     .then((response)=>{
-                //         //const x = getLocal('TokenBearer')
-                //         const d = response.json();
-                //        // console.log(d, "here");
-                //         //console.log(getLocal('TokenBearer'))
-                //         return d;
-                        
-                        
-                //     }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-                //     .then((response)=>{
-                //         const { message } = response;
-                //         console.log(response)
-                //         if (message == "Thank you") {
-                //             console.log("true")           
-                //             navigationValue.navigate("Profile");
-                //           
-                //           }
-                        
-                        
-                //       alert(message);       // If data is in JSON => Display alert msg
-    
-                //       //alert(response[0].Message);       // If data is in JSON => Display alert msg
-                //       //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
-                //     }).catch(e=> console.log(e, "error"))
-                    
-                //     }
-
-                //     catch(error){
-                //         console.log(error);
-                //         alert("Error Occured");
-                        
-                //     }
-
-
-                
-
-                
-
                     const savetobiodata = async() => {
                         const form = new FormData();
                         form.append('picture',values.picture);
