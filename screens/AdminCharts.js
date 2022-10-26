@@ -49,16 +49,6 @@ export default function AdminCharts({ navigation }) {
         [tok])
 
 
-    const data = [
-        [70, -5],
-        [80, -10],
-        [110, 0],
-        [100, 0],
-        [280, -60],
-    ];
-
-    const horizontalData = ['April', 'May', 'June', 'July', 'August'];
-
 
 
     return (
@@ -66,7 +56,7 @@ export default function AdminCharts({ navigation }) {
             <View style={styles.body}>
                 <Text style={styles.text}>Welcome to Charts</Text>
 
-                <BarChart data={data} horizontalData={horizontalData} />;
+                
 
             </View>
         </View>

@@ -1,4 +1,4 @@
-import { View , Text } from "react-native";
+import { View , Text, Alert } from "react-native";
 import  { useState }  from 'react';
 import { secureGet } from '../ExternalVariables/storage';
 import { StyleSheet } from "react-native";
@@ -15,6 +15,7 @@ export default function ProfileForm({}){
     try {
        
         const values = {jambNo : regNo};
+       
        
         var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/profile";
         var headers = {
@@ -37,6 +38,11 @@ export default function ProfileForm({}){
         }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
         .then((response)=>{
             setMessage(response);
+
+            if(response == "Please Fill BioData form"){
+                Alert.alert(message)
+            }
+            //console.log(response);
             
         }).catch(e=> console.log(e, "error"))
         
