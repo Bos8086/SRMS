@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { secureGet, secureSave } from '../ExternalVariables/storage';
 import CourseRegistration from './CourseRegistration';
 import Card from '../shared/card';
+import ItemCard from '../shared/ItemCard';
 import AddCourseForm from './AddCourseForm'
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -17,15 +18,29 @@ export default function AdminCourseManagement({navigation}){
 
     const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course";
 
+ 
+
     const values = {department_name:dept};
     
 
 
-     const searchDept = () => {
-            
+     const searchDept = () => {   
+        // if(checkValues){
+        //     return;
+        // }
+              
                 secureGet('token', setTok);
 
                 const getAllcoursesByDept = async() => {
+                    if(dept==''){
+                        Alert.alert("Please Enter A Department")
+                        return
+                    }
+
+               
+
+                    ;  
+                    
                     console.log(values)
 
                     var headers = {
@@ -33,6 +48,10 @@ export default function AdminCourseManagement({navigation}){
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' +  tok
                     };
+
+                    
+                   
+
                     
                     await axios.create({headers}).post(InsertAPIURL,values)
                     .then((res)=>{
@@ -76,6 +95,9 @@ export default function AdminCourseManagement({navigation}){
                 placeholder='Enter a department'
                 onChangeText={(dept) => setDept(dept)}
                 Value={dept}
+
+
+                
                 > Enter a Department 
                 </TextInput>
                 <TouchableOpacity onPress={searchDept}>
@@ -84,16 +106,20 @@ export default function AdminCourseManagement({navigation}){
                         </View>
                 </TouchableOpacity>
             
-                <Text>These are the list of courses of the department:</Text>
+                <Text style={styles.intro}>These are the list of courses of the department:</Text>
                 <Text style={styles.contentText}>
+                <ItemCard>
                 <FlatList
                    keyExtractor={(item)=> item.courseId}
                     data={message}
                     renderItem ={({item}) => (
+                       
                         <Text>{item.courseCode} {item.courseName} {item.status} {item.unit} </Text>
+                       
                     )}
                     ListEmptyComponent={emptyComponent}
                 />
+                </ItemCard>
                 </Text>
                 <Text style={styles.header}>
                     ADD A COURSE
@@ -125,6 +151,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
         paddingBottom:30
+    },
+    intro:{
+        fontSize:15,
+        fontWeight:'bold',
     },
     TextInput:{
         padding:10,

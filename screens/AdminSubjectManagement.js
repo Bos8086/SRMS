@@ -9,6 +9,7 @@ import axios from 'axios';
 import Card from '../shared/card';
 import AddDepartmentForm from './AddDepartmentForm';
 import { useIsFocused } from '@react-navigation/native';
+import ItemCard from '../shared/ItemCard'
 
 
 const CountAllAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";
@@ -17,8 +18,8 @@ const displayAllDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/ad
 
 
 
-export const countAllDepartments = async (tok,setMessage) => {
-    
+export const countAllDepartments = async (tok, setMessage) => {
+
     let headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ export const countAllDepartments = async (tok,setMessage) => {
 
 
 export const displayAllDepartments = async (tok, setlist) => {
-     
+
     let headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -68,18 +69,18 @@ export default function AdminSubjectManagement({ navigation }) {
     // };
 
     useEffect(() => {
-      
+
         if (tok) {
-            countAllDepartments(tok,setMessage);
+            countAllDepartments(tok, setMessage);
         };
 
         if (tok) {
-            displayAllDepartments(tok,setlist);
+            displayAllDepartments(tok, setlist);
         };
 
         if (isFocused && tok) {
-            countAllDepartments(tok,setMessage);
-            displayAllDepartments(tok,setlist);
+            countAllDepartments(tok, setMessage);
+            displayAllDepartments(tok, setlist);
         }
     }, [tok, isFocused]);
 
@@ -96,7 +97,9 @@ export default function AdminSubjectManagement({ navigation }) {
                         keyExtractor={(item) => item.dept_id}
                         data={list}
                         renderItem={({ item }) => (
-                            <Text>{item.deptName}</Text>
+                            <ItemCard>
+                                <Text>{item.deptName}</Text>
+                            </ItemCard>
                         )}
                     />
 
