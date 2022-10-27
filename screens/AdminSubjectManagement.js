@@ -10,6 +10,7 @@ import Card from '../shared/card';
 import AddDepartmentForm from './AddDepartmentForm';
 import { useIsFocused } from '@react-navigation/native';
 import ItemCard from '../shared/ItemCard'
+import StatsCard from '../shared/statsCard';
 
 
 const CountAllAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";
@@ -93,15 +94,17 @@ export default function AdminSubjectManagement({ navigation }) {
                     <Text style={styles.text}>Welcome to Subject Management</Text>
                     <Text style={styles.text}>These are the Number of departments : {message.count}</Text>
                     <Text style={styles.text}>These are The List of Departments : </Text>
+                    <StatsCard>
                     <FlatList
                         keyExtractor={(item) => item.dept_id}
                         data={list}
                         renderItem={({ item }) => (
-                            <ItemCard>
+                            
                                 <Text>{item.deptName}</Text>
-                            </ItemCard>
+                            
                         )}
                     />
+                    </StatsCard>
 
                 </View>
                 <Text style={styles.header}>

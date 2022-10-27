@@ -9,7 +9,7 @@ export default function AdminUserManagement({navigation}){
     return(
         <View style =  {styles.container}>
              <View style={styles.body}>
-                <Text style={styles.text}>Welcome to User Management</Text>
+                <Text style={styles.text}>Welcome to Student Management</Text>
             </View>
         </View>
     )

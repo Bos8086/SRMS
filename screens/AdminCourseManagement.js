@@ -6,6 +6,7 @@ import { secureGet, secureSave } from '../ExternalVariables/storage';
 import CourseRegistration from './CourseRegistration';
 import Card from '../shared/card';
 import ItemCard from '../shared/ItemCard';
+import StatsCard from '../shared/statsCard'
 import AddCourseForm from './AddCourseForm'
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -108,7 +109,7 @@ export default function AdminCourseManagement({navigation}){
             
                 <Text style={styles.intro}>These are the list of courses of the department:</Text>
                 <Text style={styles.contentText}>
-                <ItemCard>
+                <StatsCard>
                 <FlatList
                    keyExtractor={(item)=> item.courseId}
                     data={message}
@@ -119,7 +120,7 @@ export default function AdminCourseManagement({navigation}){
                     )}
                     ListEmptyComponent={emptyComponent}
                 />
-                </ItemCard>
+                </StatsCard>
                 </Text>
                 <Text style={styles.header}>
                     ADD A COURSE
