@@ -20,15 +20,16 @@ const reviewSchema = yup.object({
 })
 
 
-export default function ForgotPasswordForm({navigationValue}){
+export default function AdminChangePasswordForm({navigationValue}){
 const [tok,setTok] = useState("");
-const [regNo,setRegNo] = useState("");
+const [username,setUsername] = useState("");
 const [message,setMessage] = useState();
 
 
 secureGet('token', setTok);
-secureGet('JAMBNO', setRegNo);
-const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/change_password";
+secureGet('username',setUsername);
+
+const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/change_password";
 
 
     const [signinValues,setSigninValues] = useState([])
@@ -43,7 +44,7 @@ const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/chan
 
                     const body = {
                         currentPassword:values.OldPassword,
-                        jambNo:regNo,
+                        username:username,
                         newPassword:values.Password,
                         confirmPassword:values.NewPassword
                     }
@@ -71,7 +72,7 @@ const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/chan
                         
                      };
 
-                     if (tok,regNo){
+                     if (tok,username){
                         changePassword();
                     };
                 

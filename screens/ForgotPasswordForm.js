@@ -33,9 +33,6 @@ export default function ForgotPasswordForm({navigationValue}){
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        // 'x-client-id' : 'qdfsyrtiyjtyfdrrtyfhr5ui7ytjh',
-                        // 'x-client-secret':'ewrwut79u0ypoiufuyuiyutiogiuytuyr',
-                        // 'x-source-code':'TEST'
                       };
 
                       fetch(InsertAPIURL,{

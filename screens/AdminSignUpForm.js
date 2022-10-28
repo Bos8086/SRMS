@@ -10,6 +10,8 @@ export default function AdminSignUpForm({navigationValue}){
         navigationValue.navigate('AdminPageLogin')
       }
 
+   
+
     const reviewSchema = yup.object({
         fname: yup.string()
                 .required('First Name not provided'),
@@ -104,12 +106,16 @@ export default function AdminSignUpForm({navigationValue}){
                     />
                     <Text style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
 
+                    
+
                 <FlatButton style={styles.button} text ='SIGN IN' onPress={formikprops.handleSubmit}/>
+                
+
                 <TouchableOpacity onPress={() => {
                     login()
                             }}>
                     <View style = {styles.loginbtn}>
-                        <Text style={styles.login}>'Already have a Login? , Click here'</Text>
+                        <Text style={styles.login}>Already have a Login? , Click here</Text>
                     </View>
                 </TouchableOpacity>
 

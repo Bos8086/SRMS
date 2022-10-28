@@ -51,8 +51,10 @@ export default function AdminPageLoginForm({navigationValue}){
                     .then((response)=>{
                         const { message } = response;
                         const token = response.token;
+                        const username = response.username;
                         console.log(response);
                         secureSave('token' , token);
+                        secureSave('username',username);
                         if (message == "Login Successful") {
                             console.log("true")
                             navigationValue.navigate('LandingPage');

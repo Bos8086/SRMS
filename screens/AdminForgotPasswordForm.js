@@ -9,7 +9,7 @@ export default function AdminForgotPasswordForm({navigationValue}){
     const reviewSchema = yup.object({
         username: yup.string()
                 .required('Username is not provided'),
-        password: yup.string()
+        newPassword: yup.string()
                     .required('No password provided')
                     .min(8,'Password is too short- Should be 8 chars minimum'),
         confirmPassword: yup.string()
@@ -20,49 +20,53 @@ export default function AdminForgotPasswordForm({navigationValue}){
     return(
         <View>
             <Formik 
-            initialValues = {{username:'',password:'',confirmPassword:''}}
+            initialValues = {{username:'',newPassword:'',confirmPassword:''}}
             validationSchema = {reviewSchema}
-            // onSubmit = {(values) => {
-            //     try {
-            //         console.log(values, 'values');
-            //         var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/register";
-            //         //var InsertAPIURL = "https://127.0.0.1:9021/api/v1/student/register";
-            //         var headers = {
-            //             'Accept': 'application/json',
-            //             'Content-Type': 'application/json'
-            //           };
+            onSubmit = {(values) => {
+                try {
+                    console.log(values, 'values');
+                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/reset_password";
+                    var headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                      };
 
-            //           fetch(InsertAPIURL,{
-            //             method:'POST',
-            //             headers:headers,
-            //             body: JSON.stringify(values), //convert data to JSON
-            //         })
+                      fetch(InsertAPIURL,{
+                        method:'POST',
+                        headers:headers,
+                        body: JSON.stringify(values), //convert data to JSON
+                    })
                 
-            //         .then((response)=>{
-            //             const d = response.json();
-            //             console.log(d, "here");
-            //             return d;
-            //         }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
-            //         .then((response)=>{
-            //             const { message } = response;
-            //             if (message == "Thank you for registering") {
-            //                 console.log("true")
-            //                 navigationValue.navigate('Signin');
-            //               }
-            //               alert(message);       // If data is in JSON => Display alert msg
-            //               console.log(response);
-            //           //alert(response[0].Message);       // If data is in JSON => Display alert msg
-            //           //navigationValue.navigate('Signin'); //Navigate to next screen if authentications are valid
-            //         }).catch(e=> console.log(e, "error"))
-                    
-            //         }
-
-            //         catch(error){
-            //             console.log(error);
-            //             alert("Error Occured" + ErrorMessage);
+                    .then((response)=>{
+                        const d = response.json();
+                        console.log(d, "here");
+                        return d;
+                    }) //check response type of API (CHECK OUTPUT OF DATA IS IN JSON)
+                    .then((response)=>{
+                        const { message } = response;
+                        console.log(message)
+                        if (message == "Password successfully Reset") {
+                            console.log("true")           
+                            navigationValue.navigate('AdminPageLogin');
+                          }
                         
-            //         }
-            //       }}             
+                        
+                      alert(message);       // If data is in JSON => Display alert msg
+    
+                      //alert(response[0].Message);       // If data is in JSON => Display alert msg
+                      //navigationValue.navigate('HomePage'); //Navigate to next screen if authentications are valid
+                    }).catch(e=> console.log(e, "error"))
+                    
+                    }
+
+                    catch(error){
+                        console.log(error);
+                        alert("Error Occured" + ErrorMessage);
+                        
+                    }
+                
+            } }    
+                        
             >
               {(formikprops) => (
                 <View >
@@ -78,10 +82,10 @@ export default function AdminForgotPasswordForm({navigationValue}){
                         secureTextEntry = {true}
                         style = {styles.input}
                         placeholder='password:'
-                        onChangeText={formikprops.handleChange('password')}
-                        value={formikprops.values.password}
+                        onChangeText={formikprops.handleChange('newPassword')}
+                        value={formikprops.values.newPassword}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.password}</Text>
+                    <Text style = {styles.error}>{formikprops.errors.newPassword}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}

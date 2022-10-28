@@ -3,6 +3,8 @@ import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, ActivityInd
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { Avatar , Button} from 'react-native-paper';
 import { launchImageLibrary } from 'react-native-image-picker';
+import Card from '../shared/card';
+import AdminChangePasswordForm from './AdminChangePasswordForm';
 
 
 export default function AdminSettings({navigation}){
@@ -10,6 +12,9 @@ export default function AdminSettings({navigation}){
         <View style =  {styles.container}>
              <View style={styles.body}>
                 <Text style={styles.text}> Welcome to Settings </Text>
+                <Card>
+                    < AdminChangePasswordForm />
+                </Card>
             </View>
         </View>
     )

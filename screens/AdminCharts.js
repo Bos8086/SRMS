@@ -50,17 +50,17 @@ export default function AdminCharts({ navigation }) {
     },
         [tok])
 
-    
+
     const createbarChart = () => {
         if (message != null) {
             const barChart = [
-                { value: message[0][0][1], label: 'History' },
-                { value: message[0][1][1], label: 'MATHEMATICS' },
-                { value: message[0][2][1], label: 'Medicine' },
+                { value: message[0][0][1], label: 'HIS' },
+                { value: message[0][1][1], label: 'MA' },
+                { value: message[0][2][1], label: 'ME' },
                 // { value: message[0][3][1], label: 'history' },
-                { value: message[0][4][1], label: 'Computer Science' },
-                { value: message[0][5][1], label: 'ARTS' },
-                { value: message[0][6][1], label: 'LINGUISTICS' }
+                { value: message[0][4][1], label: 'CS' },
+                { value: message[0][5][1], label: 'ART' },
+                { value: message[0][6][1], label: 'LI' }
             ]
             return barChart
         }
@@ -71,6 +71,23 @@ export default function AdminCharts({ navigation }) {
         createbarChart();
     }
 
+
+    const renderLegend = (text, color) => {
+        return (
+            <View style={{ flexDirection: 'row', marginBottom: 12 }}>
+                <View
+                    style={{
+                        height: 18,
+                        width: 18,
+                        marginRight: 10,
+                        borderRadius: 4,
+                        backgroundColor: color || 'white',
+                    }}
+                />
+                <Text style={{ color: 'black', fontSize: 16 }}>{text || ''}</Text>
+            </View>
+        );
+    };
 
     
 
@@ -101,7 +118,33 @@ export default function AdminCharts({ navigation }) {
                     data={createbarChart()}
                     yAxisThickness={0}
                     xAxisThickness={0}
+                    isAnimated={true}
                 />
+
+                <View
+                    style={{
+                        width: '100%',
+                        flexDirection: 'row',
+                        justifyContent: 'space-evenly',
+                        marginTop: 20,
+                    }}>
+                   
+                </View>
+
+                <View style={{ flexDirection: 'column', marginBottom: 12 }}>
+                    <Text style={{fontWeight: 'bold', textDecorationLine: 'underline'}}>
+                        Legend
+                    </Text>
+
+                    <Text  >
+                        HIS : History
+                        MA : MATHEMATICS
+                        ME : Medicine
+                        CS : Computer Science
+                        ART : ARTS
+                        LI : LINGUISTICS
+                    </Text>
+                </View>
 
             </View>
         </View>
