@@ -5,6 +5,8 @@ import { Avatar, Button } from 'react-native-paper';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import { secureGet } from '../ExternalVariables/storage';
+import { Value } from 'react-native-reanimated';
+import { BarChart } from 'react-native-gifted-charts';
 
 
 
@@ -48,6 +50,29 @@ export default function AdminCharts({ navigation }) {
     },
         [tok])
 
+    
+    const createbarChart = () => {
+        if (message != null) {
+            const barChart = [
+                { value: message[0][0][1], label: 'History' },
+                { value: message[0][1][1], label: 'MATHEMATICS' },
+                { value: message[0][2][1], label: 'Medicine' },
+                // { value: message[0][3][1], label: 'history' },
+                { value: message[0][4][1], label: 'Computer Science' },
+                { value: message[0][5][1], label: 'ARTS' },
+                { value: message[0][6][1], label: 'LINGUISTICS' }
+            ]
+            return barChart
+        }
+
+    }
+
+    if (message) {
+        createbarChart();
+    }
+
+
+    
 
 
 
@@ -56,7 +81,27 @@ export default function AdminCharts({ navigation }) {
             <View style={styles.body}>
                 <Text style={styles.text}>Welcome to Charts</Text>
 
-                
+
+                <Text
+                    style={{
+                        color: 'black',
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        marginBottom: 12,
+                    }}>
+                    Total No of Students By Department
+
+                </Text>
+
+                <BarChart
+                    barWidth={22}
+                    noOfSections={3}
+                    barBorderRadius={4}
+                    frontColor='black'
+                    data={createbarChart()}
+                    yAxisThickness={0}
+                    xAxisThickness={0}
+                />
 
             </View>
         </View>

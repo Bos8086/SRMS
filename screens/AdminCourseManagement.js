@@ -6,7 +6,7 @@ import { secureGet, secureSave } from '../ExternalVariables/storage';
 import CourseRegistration from './CourseRegistration';
 import Card from '../shared/card';
 import ItemCard from '../shared/ItemCard';
-import StatsCard from '../shared/statsCard'
+import StatsCard from '../shared/StatsCard';
 import AddCourseForm from './AddCourseForm'
 import { ScrollView } from 'react-native-gesture-handler';
 

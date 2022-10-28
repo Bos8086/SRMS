@@ -10,7 +10,7 @@ import Card from '../shared/card';
 import AddDepartmentForm from './AddDepartmentForm';
 import { useIsFocused } from '@react-navigation/native';
 import ItemCard from '../shared/ItemCard'
-import StatsCard from '../shared/statsCard';
+import StatsCard from '../shared/StatsCard';
 
 
 const CountAllAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";

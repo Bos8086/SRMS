@@ -2,12 +2,13 @@ import React, { useEffect, useMemo } from 'react';
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, ActivityIndicator, useState, Alert } from 'react-native';
 import { ErrorMessage } from 'formik';
 import { secureGet } from '../ExternalVariables/storage';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import { Avatar, Button } from 'react-native-paper';
 import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import { tokenToString } from 'typescript';
 import StatsCard from '../shared/StatsCard';
+import { PieChart } from "react-native-gifted-charts";
 
 
 export default function AdminHomePage({ navigation }) {
@@ -88,12 +89,32 @@ export default function AdminHomePage({ navigation }) {
 
 
 
+        //const barData = [{value: 15}, {value: 30}, {value: 26}, {value: 40}];
+        const piechart = [{value:oldStudentList?.count,color:'#DA1313'},{value:newStudentList?.count,color:'#FAB5B6'}]
 
+
+        const renderLegend = (text, color) => {
+            return (
+              <View style={{flexDirection: 'row', marginBottom: 12}}>
+                <View
+                  style={{
+                    height: 18,
+                    width: 18,
+                    marginRight: 10,
+                    borderRadius: 4,
+                    backgroundColor: color || 'white',
+                  }}
+                />
+                <Text style={{color: 'black', fontSize: 16}}>{text || ''}</Text>
+              </View>
+            );
+          };
 
 
 
 
     return (
+        <ScrollView>
         <View style={styles.container}>
             <View style={styles.body}>
 
@@ -108,7 +129,37 @@ export default function AdminHomePage({ navigation }) {
                     <Text style={styles.text}>These are the number of New Students: {newStudentList?.count}</Text>
                 </StatsCard>
             </View>
+
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 15,
+                fontWeight: 'bold',
+                marginBottom: 12,
+              }}>
+              Total No of Students.
+              
+            </Text>
+
+            
+            <PieChart 
+            data={piechart}
+            focusOnPress={true}/>
+
+            <View
+              style={{
+                width: '100%',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                marginTop: 20,
+              }}>
+              {renderLegend('New Students', '#FAB5B6')}
+              {renderLegend('Old Students', '#DA1313')}
+              
+            </View>
+
         </View>
+        </ScrollView>
     )
 }
 
