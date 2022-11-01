@@ -86,19 +86,12 @@ export default function HomePage({navigation}){
             onPress={()=>alert('pressed2')}
             underlayColor="rgba(0,0,0,0)">
             <Avatar.Image
-                size={200}
-                
+                size={200}    
                 source={{uri:response?.picUrl}}
-                
+                //avatarStyle={{backgroundColor:'#FFFFFF' }}
+                style={{backgroundColor:'grey'}}    
             />
             </TouchableHighlight>
-            
-
-          
-
-            
-            
-       
         <View style={styles.space} />
         <TouchableOpacity onPress={onPress5}>
             <View style={styles.button}>

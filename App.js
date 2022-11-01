@@ -345,7 +345,7 @@ export default function App() {
               /> */}
 
         <Stack.Screen
-          name='LandingPage'
+          name='AdminLandingPage'
           component={AdminDrawerNavigator}
           options={{ header: () => null }}
         />

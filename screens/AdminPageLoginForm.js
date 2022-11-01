@@ -57,7 +57,7 @@ export default function AdminPageLoginForm({navigationValue}){
                         secureSave('username',username);
                         if (message == "Login Successful") {
                             console.log("true")
-                            navigationValue.navigate('LandingPage');
+                            navigationValue.navigate('AdminLandingPage');
                           }
                           alert(message);       // If data is in JSON => Display alert msg
                           

@@ -16,10 +16,12 @@ const styles = StyleSheet.create({
         borderRadius:4,
         elevation:100,
         backgroundColor: 'rgba(247,246,246, 0.9)',
-        marginHorizontal:4,
+        marginHorizontal:30,
         marginVertical:6,
         borderColor: "#A39E9E",
         borderWidth: 1
+
+        
     },
     cardContent:{
         marginHorizontal: 20,

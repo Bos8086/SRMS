@@ -87,7 +87,7 @@ export default function SignupForm({navigationValue}){
                         style = {styles.input}
                         placeholder='MatricNo. /JAMB Reg'
                         onChangeText={formikprops.handleChange('jambNo')}
-                        value={formikprops.values.jambNo.toUpperCase()}
+                        value={formikprops.values.jambNo}
                     />
                     <Text style = {styles.error}>{formikprops.errors.jambNo}</Text>
                     <TextInput                       
