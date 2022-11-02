@@ -78,24 +78,24 @@ export default function AdminCharts({ navigation }) {
 
     const createbarChart = () => {
         if (message != null) {
-            console.log("message length",message[0][0][0].length);
-            console.log("message contains",message);
-           
+            console.log("message length", message[0][0][0].length);
+            console.log("message contains", message);
+
             const array = [];
 
             for (let i = 0; i < message[0][0][0].length; i++) {
                 let index = 0;
-                array.push({ value: message[0][i][index+1], label: message[0][i][index] })
+                array.push({ value: message[0][i][index + 1], label: message[0][i][index] })
             }
 
             const barChart = array;
-            console.log("this is barchart",barChart);
+            console.log("this is barchart", barChart);
 
             return barChart
 
 
 
-            
+
         }
 
     }
@@ -107,12 +107,12 @@ export default function AdminCharts({ navigation }) {
             if (message_list.list != null) {
                 // console.log("This is what is in the List ", message_list.list[0][0]);
                 const array = [];
-                console.log("message_list length ",message_list.list.length);
+                console.log("message_list length ", message_list.list.length);
 
 
                 for (let i = 0; i < message_list.list.length; i++) {
                     let index = 0;
-                    array.push({ value: message_list.list[i][index+1], label: message_list.list[i][index] })
+                    array.push({ value: message_list.list[i][index + 1], label: message_list.list[i][index] })
 
                 }
                 const barChart = array;
@@ -166,14 +166,14 @@ export default function AdminCharts({ navigation }) {
                             color: 'black',
                             fontSize: 15,
                             fontWeight: 'bold',
-                            marginBottom: 12,
+                            marginBottom: 5,
                         }}>
                         Total No of Students By Department
 
                     </Text>
 
                     <BarChart
-                        barWidth={30}
+                        barWidth={25}
                         noOfSections={3}
                         barBorderRadius={4}
                         frontColor={'#9DD6DC'}
@@ -267,14 +267,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'space-between',
+       
     },
     body: {
-        flex: 0.75
+        flex: 0.75,
+        paddingHorizontal:10
+        
     },
     text: {
         fontWeight: 'bold',
         fontSize: 20,
-        paddingBottom: 30
+        paddingBottom: '5%'
     },
     intro: {
         fontSize: 15,
@@ -287,6 +290,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         fontSize: 20,
         width: '100%',
+        marginVertical: 5
 
     },
     button: {

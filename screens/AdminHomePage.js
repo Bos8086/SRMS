@@ -136,6 +136,8 @@ export default function AdminHomePage({ navigation }) {
                 fontSize: 15,
                 fontWeight: 'bold',
                 marginBottom: 12,
+                fontStyle: 'italic',
+                
               }}>
               Total No of Students.
               
@@ -147,12 +149,9 @@ export default function AdminHomePage({ navigation }) {
             focusOnPress={true}/>
 
             <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-evenly',
-                marginTop: 20,
-              }}>
+              style={
+               styles.legend
+              }>
               {renderLegend('New Students', '#FAB5B6')}
               {renderLegend('Old Students', '#DA1313')}
               
@@ -171,7 +170,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     body: {
-        flex: 0.75
+        flex: 0.75,
+        
+
     },
     text: {
         fontWeight: 'bold',
@@ -179,9 +180,16 @@ const styles = StyleSheet.create({
         paddingBottom: 30
     },
     header: {
+        textAlign: 'center',
         fontWeight: 'bold',
-        fontSize: 25,
+        fontSize: 20,
         paddingBottom: 40,
-        color: "#1B21D0"
+        color: "#1B21D0", 
+    },
+    legend:{
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        marginTop: 20,
     }
 })
