@@ -13,6 +13,7 @@ export default function StatsCard(props){
 
 const styles = StyleSheet.create({
     card:{
+        width:'10%',
         borderRadius:20,
         elevation:100,
         backgroundColor: '#FAE2E2',
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
     cardContent:{
+        width:'100%',
         marginHorizontal: 15,
         marginVertical:20,
     }

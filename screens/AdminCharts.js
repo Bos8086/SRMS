@@ -6,7 +6,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import { secureGet } from '../ExternalVariables/storage';
 import { Value } from 'react-native-reanimated';
-import { BarChart } from 'react-native-gifted-charts';
+import { BarChart, PieChart } from 'react-native-gifted-charts';
 
 
 
@@ -76,14 +76,14 @@ export default function AdminCharts({ navigation }) {
         [tok])
 
 
-    const createbarChart = () => {
+    const createPieChart = () => {
         if (message != null) {
-            console.log("message length", message[0][0][0].length);
+            console.log("message length", message[0].length);
             console.log("message contains", message);
 
             const array = [];
 
-            for (let i = 0; i < message[0][0][0].length; i++) {
+            for (let i = 0; i < message[0].length; i++) {
                 let index = 0;
                 array.push({ value: message[0][i][index + 1], label: message[0][i][index] })
             }
@@ -123,7 +123,7 @@ export default function AdminCharts({ navigation }) {
     }
 
     if (message) {
-        createbarChart();
+        createPieChart();
     }
 
     if (message_list) {
@@ -155,7 +155,11 @@ export default function AdminCharts({ navigation }) {
 
 
     return (
-        <ScrollView>
+        <ScrollView 
+
+        horizontal = {true}
+        
+        >
             <View style={styles.container}>
                 <View style={styles.body}>
                     <Text style={styles.text}>Welcome to Charts</Text>
@@ -172,12 +176,24 @@ export default function AdminCharts({ navigation }) {
 
                     </Text>
 
+                    {/* <PieChart
+                    
+                    showText={true}
+                    showValuesAsLabels={true}
+                    textBackgroundColor="#333"
+                    textColor="black"
+                    textSize={15}
+                    fontWeight="bold"
+                    
+                    data={createPieChart()}
+                    /> */}
+
                     <BarChart
                         barWidth={25}
                         noOfSections={3}
                         barBorderRadius={4}
                         frontColor={'#9DD6DC'}
-                        data={createbarChart()}
+                        data={createPieChart()}
                         yAxisThickness={0}
                         xAxisThickness={0}
                         isAnimated={true}
@@ -248,6 +264,9 @@ export default function AdminCharts({ navigation }) {
                             yAxisThickness={2}
                             xAxisThickness={2}
                             isAnimated={true}
+                            //scrollToEnd={true}
+                            //disableScroll={false}
+                            
 
                         />
 
@@ -289,7 +308,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 6,
         fontSize: 20,
-        width: '100%',
+        width: '30%',
         marginVertical: 5
 
     },

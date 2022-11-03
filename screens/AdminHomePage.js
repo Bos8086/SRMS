@@ -146,7 +146,8 @@ export default function AdminHomePage({ navigation }) {
             
             <PieChart 
             data={piechart}
-            focusOnPress={true}/>
+            focusOnPress={true}
+            />
 
             <View
               style={
