@@ -142,6 +142,7 @@ export default function BioDataForm({navigationValue}){
                      <TouchableOpacity
                         activeOpacity={0.5}
                         style={{
+
                             padding:10,
                             backgroundColor: '#ddd',
                             borderWidth: 1,
@@ -155,12 +156,18 @@ export default function BioDataForm({navigationValue}){
                 {
                     async () => {
                     let pickerResult = await ImagePicker.launchImageLibraryAsync(
-                        {base64: true,
-                         quality: 1,}
+                        {
+                        mediaTypes:'image',
+                        base64: true,
+                        quality: 1,
+                        }
                         
                     );
                     if (pickerResult.cancelled === true) {
                     return;
+                    }
+                    if(pickerResult.fileSize==10000000){
+                        Alert.alert("File is too Large");
                     }
                     setUri(pickerResult.uri);
                     formikprops.setFieldValue('picture', pickerResult.base64)
