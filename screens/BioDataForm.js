@@ -157,7 +157,6 @@ export default function BioDataForm({navigationValue}){
                     async () => {
                     let pickerResult = await ImagePicker.launchImageLibraryAsync(
                         {
-                        mediaTypes:'image',
                         base64: true,
                         quality: 1,
                         }
@@ -166,9 +165,9 @@ export default function BioDataForm({navigationValue}){
                     if (pickerResult.cancelled === true) {
                     return;
                     }
-                    if(pickerResult.fileSize==10000000){
-                        Alert.alert("File is too Large");
-                    }
+                    // if(pickerResult.fileSize==10000000){
+                    //     Alert.alert("File is too Large");
+                    // }
                     setUri(pickerResult.uri);
                     formikprops.setFieldValue('picture', pickerResult.base64)
                     console.log(pickerResult.base64);
