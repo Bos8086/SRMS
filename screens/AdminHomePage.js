@@ -172,8 +172,6 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 0.75,
-        
-
     },
     text: {
         fontWeight: 'bold',

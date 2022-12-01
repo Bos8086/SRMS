@@ -124,7 +124,13 @@ export default function ViewRegistration({ navigation }) {
                 console.error(err);
             });
 
+
     };
+
+
+    // if (tok && regNo) {
+    //     GetCourseByRegNo();
+    // };
 
     const deletebutton = (courseId,courseName) => {
         Alert.alert(

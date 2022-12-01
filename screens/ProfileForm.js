@@ -16,7 +16,7 @@ export default function ProfileForm({ }) {
 
 
 
-    const values = { jambNo: regNo };
+   
 
 
     var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/profile";
@@ -29,10 +29,14 @@ export default function ProfileForm({ }) {
 
 
     useEffect(() => {
+        const values = { jambNo: regNo };
+       
 
     const displayProfile = async() => {
         await axios.create({ headers }).post(InsertAPIURL, values)
         .then((res) => {
+            console.log(values)
+            console.log("token : " , tok)
             console.log("response", res?.data);
             setMessage(res?.data);
             Alert.alert(res?.data.message);
@@ -45,12 +49,12 @@ export default function ProfileForm({ }) {
 
     }
 
-    if (tok) {
+    if (tok && regNo) {
         displayProfile();
     };
 
     },
-        [tok])
+        [tok,regNo])
 
 
 
