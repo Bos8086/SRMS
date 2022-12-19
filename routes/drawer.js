@@ -1,4 +1,4 @@
-// import { createDrawerNavigator } from "react-navigation-drawer";
+// import { createDrawerNavigator } from "react-navigation/drawer";
 // //import { createAppContainer } from "react-navigation";
 // import CourseRegistration from "../screens/CourseRegistration";
 // import Profile from "../screens/Profile";

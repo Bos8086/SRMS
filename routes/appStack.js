@@ -1,4 +1,4 @@
-// // import { createDrawerNavigator } from "react-navigation-drawer";
+// // import { createDrawerNavigator } from "react-navigation/drawer";
 // // import { createStackNavigator, HeaderTitle } from 'react-navigation-stack';
 // import { createAppContainer } from "react-navigation";
 
@@ -36,7 +36,7 @@
 // import Settings from '../screens/Settings';
 // import BioData from "../screens/BioData";
 //  import HomePage from "../screens/HomePage";
-//  import { createDrawerNavigator} from "react-navigation-drawer";
+//  import { createDrawerNavigator} from "react-navigation/drawer";
 
 // const screens = {
 //         Home: {
