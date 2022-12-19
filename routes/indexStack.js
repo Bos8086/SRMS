@@ -11,7 +11,7 @@ import CourseRegistration from '../screens/CourseRegistration';
 import BioData from '../screens/BioData';
 import Settings from '../screens/Settings';
 import ViewRegistration from '../screens/ViewRegistration';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createDrawerNavigator } from 'react-navigation/drawer';
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';

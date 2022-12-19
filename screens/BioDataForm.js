@@ -26,6 +26,7 @@ const reviewSchema = yup.object({
   jambNo: yup.string().required("JAMB NO required"),
   dateOfBirth: yup
     .string()
+    //.matches(/^\\d{2}-\\d{2}-\\d{4}$/, 'Invalid date (DD-MM-YYYY)')
     .required("Please put date of birth in the Format : DD-MM-YYYY"),
   age: yup.string().required("No Age Provided"),
   sex: yup.string().required("No Sex provided"),
@@ -33,7 +34,7 @@ const reviewSchema = yup.object({
   faculty: yup.string().required("No Faculty provided"),
   department: yup.string().required("No Department provided"),
   address: yup.string().required("No Address provided"),
-  email: yup.string().required("No Email provided"),
+  email: yup.string().email().required("No Email provided"),
   phoneNo: yup.string().required("No phone Number provided"),
   nationality: yup.string().required("No Nationality provided"),
   religion: yup.string().required("No Religion provided"),
@@ -42,7 +43,7 @@ const reviewSchema = yup.object({
   parName: yup.string().required("No Parent Name Provided"),
   parAdd: yup.string().required("No Parent Address Provided"),
   occName: yup.string().required("No Parent Occupation Provided"),
-  parEmail: yup.string().required("No Parent Email Provided"),
+  parEmail: yup.string().email().required("No Parent Email Provided"),
   parNO: yup.string().required("No Parent Phone Number provided"),
   //picture: yup.string().required('File has not been uploaded'),
 });

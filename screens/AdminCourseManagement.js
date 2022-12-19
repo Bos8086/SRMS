@@ -17,14 +17,15 @@ export default function AdminCourseManagement({ navigation }) {
     const [dept, setDept] = React.useState("");
     const [tok, setTok] = React.useState("");
 
-    const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course";
+   
 
 
 
     const values = { department_name: dept };
 
 
-
+    const InsertAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course?department_name=${dept}`
+    console.log(InsertAPIURL);
     const searchDept = () => {
         // if(checkValues){
         //     return;
@@ -54,7 +55,7 @@ export default function AdminCourseManagement({ navigation }) {
 
 
 
-            await axios.create({ headers }).post(InsertAPIURL, values)
+            await axios.create({ headers }).get(InsertAPIURL)
                 .then((res) => {
                     console.log("response", res?.data);
                     setMessage(res?.data);

@@ -8,8 +8,7 @@ import ItemCard from '../shared/ItemCard'
 
 
 export default function ViewRegistration({ navigation }) {
-    const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/view_course";
-    const DeleteAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/delete_course";
+
 
     const [message, setMessage] = useState([]);
     const [refreshing, setRefreshing] = React.useState(false);
@@ -29,6 +28,9 @@ export default function ViewRegistration({ navigation }) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + tok
     };
+
+    const InsertAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/student/view_course?regNo=${regNo}`;
+    const DeleteAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/delete_course";
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -50,18 +52,21 @@ export default function ViewRegistration({ navigation }) {
         console.log(courseId)
 
         const values = { jambNo: regNo, course_Id: courseId }
+        console.log("I am in delete button", values)
 
         const DeleteCourseByRegNo = async () => {
-            await axios.create({ headers }).post(DeleteAPIURL, values)
+            await axios.create({ headers }).delete(DeleteAPIURL, {data:values})
                 .then((res) => {
+                    console.log("I am in delete button 2")
                     console.log("response", res?.data)
                     setResponse(res?.data);
                     console.log("response : ", response)
-                    Alert.alert(res?.data?.message);
+                    Alert.alert(res?.data?.message || "Deleted Successfully");
                     GetCourseByRegNo();
-                })
+                }) 
                 .catch((err) => {
                     console.error(err);
+                    console.error(err.response.data);
                 });
 
         };
@@ -88,13 +93,13 @@ export default function ViewRegistration({ navigation }) {
     console.log("focus", isFocused);
 
     const GetCourseByRegNo = async () => {
-        const values = { regNo: regNo };
+        //const values = { regNo: regNo };
         console.log("making a calllllllll");
 
         // console.log("Token1", tok);
         //   console.log(values);
 
-        await axios.create({ headers }).post(InsertAPIURL, values)
+        await axios.create({ headers }).get(InsertAPIURL)
             .then((res) => {
                 console.log("response from view course", res?.data);
                 if (res?.data == "The student has not registered for a course") {

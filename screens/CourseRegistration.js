@@ -21,8 +21,10 @@ export default function CourseRegistration({ navigation }) {
     const [regNo, setRegNo] = React.useState("");
     const [courses, setcourses] = React.useState([]);
     const [modalVisible, setVisible] = React.useState(false);
+    const Dept_new = Depts.toUpperCase()
+    const values = { department_name: Dept_new };
 
-    const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course";
+    const InsertAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course?department_name=${Dept_new}`
     const RegisterAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/register_course";
     secureGet('token', setToke);
     secureGet('JAMBNO', setRegNo);
@@ -93,13 +95,12 @@ export default function CourseRegistration({ navigation }) {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + tok
             };
-            const Dept_new = Depts.toUpperCase()
-            const values = { department_name: Dept_new };
+           
             console.log(values);
 
 
 
-            await axios.create({ headers }).post(InsertAPIURL, values)
+            await axios.create({ headers }).get(InsertAPIURL)
                 .then((res) => {
                     console.log("response", res?.data);
                     setMessage(res?.data);

@@ -20,7 +20,7 @@ export default function HomePage({navigation}){
     const isFocused = useIsFocused();
 
 
-    const DisplayPictureUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/display_biodata_picture";
+    const DisplayPictureUrl = `https://s-r-m-s2022.herokuapp.com/api/v1/student/display_biodata_picture?jambNo=${regNo}`;
     const body = {jambNo:regNo}
 
     var headers = {
@@ -36,7 +36,7 @@ export default function HomePage({navigation}){
     useEffect(  ()=> {
 
     const DisplayPicture =  async()=> {
-        await axios.create({headers}).post(DisplayPictureUrl,body)
+        await axios.create({headers}).get(DisplayPictureUrl)
         .then((res)=>{
             setResponse(res?.data);
             console.log(" response1 " , res?.data);

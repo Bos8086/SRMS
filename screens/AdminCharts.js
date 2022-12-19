@@ -7,6 +7,7 @@ import axios from 'axios';
 import { secureGet } from '../ExternalVariables/storage';
 import { Value } from 'react-native-reanimated';
 import { BarChart, PieChart } from 'react-native-gifted-charts';
+import { ErrorMessage } from 'formik';
 
 
 
@@ -17,9 +18,7 @@ export default function AdminCharts({ navigation }) {
     const [tok, setToke] = React.useState("");
     const [dept, setDept] = React.useState("");
     secureGet('token', setToke);
-    const displayAllCountByDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_students_by_departments";
-    const displayAllCountGroupByLevelByDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/show_count_all_level_by_department";
-
+   
 
     var headers = {
         'Accept': 'application/json',
@@ -28,6 +27,9 @@ export default function AdminCharts({ navigation }) {
     };
 
     const values = { deptName: dept };
+    const displayAllCountByDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_students_by_departments";
+    const displayAllCountGroupByLevelByDepartmentsAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/admin/show_count_all_level_by_department?deptName=${dept}`;
+
 
 
     const countStudentsByLevel = async () => {
@@ -38,13 +40,20 @@ export default function AdminCharts({ navigation }) {
 
 
 
-        await axios.create({ headers }).post(displayAllCountGroupByLevelByDepartmentsAPIURL, values)
+        await axios.create({ headers }).get(displayAllCountGroupByLevelByDepartmentsAPIURL)
             .then((res) => {
-                setMessage_list(res?.data);
-                console.log(res?.data);
+                console.log("Error Code" ,res?.status)
+                 //setMessage_list(res?.data);
+                 //onsole.log(res?.data);
             })
             .catch((err) => {
-                console.error(err);
+                if (err.response.status == 404){
+                    Alert.alert(err.response.data.message)
+                }
+                else{
+                    console.error(err);
+                }
+                
             });
     }
 
@@ -57,8 +66,12 @@ export default function AdminCharts({ navigation }) {
         const countStudents = async () => {
             await axios.create({ headers }).get(displayAllCountByDepartmentsAPIURL)
                 .then((res) => {
+                
+                    console.log("Error Code" ,res?.statusText)
                     setMessage(res?.data);
                     console.log(res?.data);
+
+                    
                 })
                 .catch((err) => {
                     console.error(err);
