@@ -9,6 +9,7 @@ import ItemCard from '../shared/ItemCard';
 import StatsCard from '../shared/StatsCard';
 import AddCourseForm from './AddCourseForm'
 import { ScrollView } from 'react-native-gesture-handler';
+import {BASE_URL} from '../shared/constants';
 
 
 export default function AdminCourseManagement({ navigation }) {
@@ -24,7 +25,7 @@ export default function AdminCourseManagement({ navigation }) {
     const values = { department_name: dept };
 
 
-    const InsertAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course?department_name=${dept}`
+    const InsertAPIURL = `${BASE_URL}/student/view_All_course?department_name=${dept}`
     console.log(InsertAPIURL);
     const searchDept = () => {
         // if(checkValues){
@@ -89,11 +90,11 @@ export default function AdminCourseManagement({ navigation }) {
 
 
     return (
-        <View style={styles.container}>
-            <View style={styles.body}>
+        <View testID='container' style={styles.container}>
+            <View testID='body' style={styles.body}>
                 <ScrollView>
-                    <Text style={styles.text}>Welcome to Course Management</Text>
-                    <TextInput style={styles.TextInput}
+                    <Text testID='text' style={styles.text}>Welcome to Course Management</Text>
+                    <TextInput testID='TextInput' style={styles.TextInput}
                         placeholder='Enter a department'
                         onChangeText={(dept) => setDept(dept)}
                         Value={dept}
@@ -103,16 +104,16 @@ export default function AdminCourseManagement({ navigation }) {
                     > Enter a Department
                     </TextInput>
                     <TouchableOpacity onPress={searchDept}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}> Search </Text>
+                        <View testID='button' style={styles.button}>
+                            <Text testID='buttonText' style={styles.buttonText}> Search </Text>
                         </View>
                     </TouchableOpacity>
 
                     <View>
 
-                        <Text style={styles.intro}>These are the list of courses of the department:</Text>
-                        <Text style={styles.contentText}>
-                            <StatsCard>
+                        <Text testID='intro' style={styles.intro}>These are the list of courses of the department:</Text>
+                        <Text testID='contentText' style={styles.contentText}>
+                            <StatsCard style = {styles.displayCard}>
                                 <FlatList
 
                                     keyExtractor={(item) => item.courseId}
@@ -127,11 +128,11 @@ export default function AdminCourseManagement({ navigation }) {
                             </StatsCard>
                         </Text>
                     </View>
-                    <Text style={styles.header}>
+                    <Text testID='header' style={styles.header}>
                         ADD A COURSE
                     </Text>
 
-                    <Card>
+                    <Card >
                         <AddCourseForm />
                     </Card>
 
@@ -189,6 +190,10 @@ const styles = StyleSheet.create({
     header: {
         color: 'black',
         fontWeight: 'bold',
+    },
+    displayCard:{
+        paddingVertical:20
+        
     }
 
 })

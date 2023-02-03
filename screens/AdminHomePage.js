@@ -9,6 +9,7 @@ import axios from 'axios';
 import { tokenToString } from 'typescript';
 import StatsCard from '../shared/StatsCard';
 import { PieChart } from "react-native-gifted-charts";
+import {BASE_URL} from '../shared/constants'
 
 
 export default function AdminHomePage({ navigation }) {
@@ -17,9 +18,9 @@ export default function AdminHomePage({ navigation }) {
     const [oldStudentList, setOldStudentList] = React.useState();
     const [tok, setToke] = React.useState("");
 
-    const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_students";
-    const NewStudentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/show_number_all_new_students"
-    const OldStudentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/show_number_all_old_students"
+    const InsertAPIURL = `${BASE_URL}/admin/count_all_students`;
+    const NewStudentsAPIURL = `${BASE_URL}/admin/show_number_all_new_students`;
+    const OldStudentsAPIURL = `${BASE_URL}/admin/show_number_all_old_students`;
 
 
     // const counter = useMemo(()=>{return tok?.length}, [tok])
@@ -115,12 +116,12 @@ export default function AdminHomePage({ navigation }) {
 
     return (
         <ScrollView>
-        <View style={styles.container}>
-            <View style={styles.body}>
+        <View testID='container' style={styles.container}>
+            <View testID='body' style={styles.body}>
 
-                <Text style={styles.header}> Dashboard </Text>
+                <Text testID='header' style={styles.header}> Dashboard </Text>
                 <StatsCard>
-                    <Text style={styles.text}>These are the number of Students : {message?.count}</Text>
+                    <Text testID='text' style={styles.text}>These are the number of Students : {message?.count}</Text>
                 </StatsCard>
                 <StatsCard>
                     <Text style={styles.text}>These are the number of Old Students: {oldStudentList?.count}</Text>
@@ -150,6 +151,7 @@ export default function AdminHomePage({ navigation }) {
             />
 
             <View
+            testID='legend'
               style={
                styles.legend
               }>

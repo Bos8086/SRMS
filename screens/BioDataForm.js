@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Alert,
+  Platform
 } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -15,6 +16,15 @@ import axios from "axios";
 import { secureGet } from "../ExternalVariables/storage";
 // import { launchImageLibrary, showImagePicker} from 'react-native-image-picker';
 import * as ImagePicker from "expo-image-picker";
+import {BASE_URL} from '../shared/constants';
+import Spinner from "react-native-loading-spinner-overlay/lib";
+import { Provider as PaperProvider } from 'react-native-paper';
+import DropDown from "react-native-paper-dropdown";
+import DatePicker from 'react-native-date-picker';
+import RNDateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import { FontAwesome } from "@expo/vector-icons";
+
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
@@ -45,12 +55,70 @@ const reviewSchema = yup.object({
   occName: yup.string().required("No Parent Occupation Provided"),
   parEmail: yup.string().email().required("No Parent Email Provided"),
   parNO: yup.string().required("No Parent Phone Number provided"),
-  //picture: yup.string().required('File has not been uploaded'),
+  picture: yup.string().required('File has not been uploaded'),
 });
 
+const Marital = [
+  {label:"Single",value:"single"},
+  {label:"Married",value:"married"},
+  {label:"Divorced",value:"divorced"}
+]
+
+const Sog = [
+  {label: "Abia", value: "abia" },
+  {label: "Adamawa", value: "adamawa" },
+  { label: "Akwa Ibom", value: "Akwa Ibom" },
+  { label: "Anambra", value: "Anambra" },
+  { label: "Bauchi", value: "Bauchi" },
+  { label: "Bayelsa", value: "Bayelsa" },
+  { label: "Benue", value: "Benue" },
+  { label: "Borno", value: "Borno" },
+  { label: "Cross River", value: "Cross River" },
+  { label: "Delta", value: "Delta" },
+  { label: "Ebonyi", value: "Ebonyi" },
+  { label: "Edo", value: "Edo" },
+  { label: "Ekiti", value: "Ekiti" },
+  { label: "Enugu", value: "Enugu" },
+  { label: "Gombe", value: "Gombe" },
+  { label: "Imo", value: "Imo" },
+  { label: "Jigawa", value: "Jigawa" },
+  { label: "Kaduna", value: "Kaduna" },
+  { label: "Kano", value: "Kano" },
+  { label: "Katsina", value: "Katsina" },
+  { label: "Kebbi", value: "Kebbi" },
+  { label: "Kogi", value: "Kogi" },
+  { label: "Kwara", value: "Kwara" },
+  { label: "Lagos", value: "Lagos" },
+  { label: "Nasarawa", value: "Nasarawa" },
+  { label: "Niger", value: "Niger" },
+  { label: "Ogun", value: "Ogun" },
+  { label: "Ondo", value: "Ondo" },
+  { label: "Osun", value: "Osun" },
+  { label: "Oyo", value: "Oyo" },
+  { label: "Plateau", value: "Plateau" },
+  { label: "Rivers", value: "Rivers" },
+  { label: "Sokoto", value: "Sokoto" },
+  { label: "Taraba", value: "Taraba" },
+  {label: "Yobe", value: "Yobe" },
+  {label: "Zamfara", value: "Zamfara"}    
+]
+
+const Sex = [
+{label:"Male", value:"male"},
+{label:"Female",value:"female"},
+{label:"Others",value:"others"}
+]
+const Religion = [
+  {label:"Christian",value:"christian"},
+  {label:"Islam",value:"islam"},
+  {label:"Others",value:"others"},
+  {label:"Traditional Worshipper",value:"Traditional Worshipper"},
+  {label:"Aethist",value:"aethist"},
+]
+
 export default function BioDataForm({ navigationValue }) {
-  //const InsertAPIURL = "http://127.0.0.1:9021/api/v1/student/save_biodata";
-  const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata";
+  const InsertAPIURL = `${BASE_URL}/student/save_biodata`;
+  //const InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/save_biodata";
 
   const [tok, setToke] = useState("");
   const [message, setMessage] = useState("");
@@ -58,10 +126,72 @@ export default function BioDataForm({ navigationValue }) {
   const [uri, setUri] = useState("");
   secureGet("token", setToke);
   const [signinValues, setSigninValues] = useState([]);
+  const [spinner,setSpinner] = useState();
+  const [showDropDownReligion, setShowDropDownReligion] = useState(false);
+  const [showDropDownSog, setShowDropDownSog] = useState(false);
+  const [showDropDownSex, setShowDropDownSex] = useState(false);
+  const [showDropDownMstatus, setShowDropDownMstatus] = useState(false);
+  const [Datepicker, setDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false)
+  //const [hideDatePicker,setHideDatePicker] = useState(false);
+  const [selectedDate, setSelectedDob] = useState('');
+
+const monthName = [
+  'January','February','March','April','May','June','July',
+  'August','September','October','November','December'
+]
+
+const hideDatePicker =  () => {
+    setDatePickerVisibility(false)
+}
+
+const handleConfirm = (selectedDate) => {
+  const formattedDate = formatDate(selectedDate);
+  setSelectedDob(formattedDate)
+}
+
+const[isDatePickerVisible,setDatePickerVisibility] = useState(false);
+
+  const formatDate = (date) => {
+    const day = date.getDate();
+    const month = monthName[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}-${month.substring(0,3)}-${year}`;
+  }
+const onDateChange = (selectedDate) => {
+    const currentDate = formatDate(selectedDate);
+    setSelectedDob(currentDate)
+}
+
+
+
+
+const showmode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange: onDateChange
+    })
+} 
+
+const showDatepicker = () => {
+      showmode("date");
+}
+
+const showDatePicker = ()=>{
+  setDatePickerVisibility(true);
+}
+
+
+
   const getSigninDetails = (signinValues) => {
     <List />;
   };
-  return (
+
+  
+
+ 
+    return (
     <View style>
       <Formik
         initialValues={{
@@ -131,17 +261,41 @@ export default function BioDataForm({ navigationValue }) {
               .create({ headers })
               .post(InsertAPIURL, values)
               .then((res) => {
+
+                <Spinner
+                visible= {spinner}
+                textContent={'Loading...'}
+                textStyle={styles.spinnerTextStyle}
+                size={"large"}
+                />
+                
+
                 console.log("pressed biodata  and here");
                 console.log("response", res?.data);
                 setMessage(res?.data);
                 Alert.alert(res?.data.message);
 
                 if (message == "Thank you") {
+                  setSpinner(false)
                   resetForm();
                 }
               })
               .catch((err) => {
-                console.error(err);
+                if(err.response.data.responseCode == 22){
+                  Alert.alert(err.response.data.message);
+                }
+                if(err.response.data.responseCode == 33){
+                  console.log("response",err.response.data.errorFields);
+                  let eRR = Object.values(err.response.data.errorFields);
+                  console.log("responseErr",eRR);
+                  let errString = "";
+                  for (let boma of eRR ){
+                    errString += boma+"\n"; 
+                  }
+                  Alert.alert(errString);
+                }
+                
+                console.log("response",err.response.data.message );
               });
           };
 
@@ -213,12 +367,98 @@ export default function BioDataForm({ navigationValue }) {
             />
 
             <Text style={styles.error}>{formikprops.errors.jambNo}</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Date of Birth"
-              onChangeText={formikprops.handleChange("dateOfBirth")}
-              value={formikprops.values.dateOfBirth}
+            
+       
+{/*       
+            <TouchableOpacity onPress={()=>
+            
+            <DateTimePickerModal
+            isVisible={true}
+            mode="date"
+            onConfirm={true}
+            onCancel={hideDatePicker}
+            date={date}
+            is24Hour
+            locale="en_GB"
+
             />
+
+          }
+            >
+              <Text>
+                DOB
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Date of Birth"
+                onChangeText={formikprops.handleChange("dateOfBirth")}
+                value={formikprops.values.dateOfBirth}
+              />
+            </TouchableOpacity> */}
+
+<View style={{ flexDirection: 'row' }}>
+                <TextInput
+                  style={styles.input}
+                  // value={selectedDob}
+                  value={formikprops.values.dateOfBirth}
+                  editable={false}
+                  mode="outlined"
+                  label={'dob'}
+                  selectionColor="#2E6DA8"
+                  outlineColor="#cdcdcd"
+                  activeOutlineColor="#2E6DA8"
+                  // onChangeText={txt => {
+                  //   setSelectedDob(txt);
+                  //   fieldsFilled(txt);
+                  // }}
+                  autoCapitalize="none"
+                />
+                {Platform.OS === 'android' ? (
+                  <TouchableOpacity onPress={showDatepicker}>
+                    <FontAwesome
+                      name="calendar"
+                      size={24}
+                      color="grey"
+                      // onPress={showDatepicker}
+                      style={{
+                        position: 'absolute',
+                        right: 10,
+                        top: 15,
+                        marginLeft: 0
+                      }}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <FontAwesome
+                    name="calendar"
+                    size={24}
+                    color="grey"
+                    onPress={showDatePicker}
+                    style={{
+                      position: 'absolute',
+                      right: 10,
+                      top: 15,
+                      marginLeft: 0
+                    }}
+                  />
+                )}
+
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                  locale="en_GB"
+                  date={date}
+                  testID="dateTimePicker"
+                  is24Hour
+                  minimumDate={new Date('1910-01-01')}
+                  maximumDate={new Date('2022-01-01')}
+                />
+                {/* )} */}
+              </View>
+
+            
             <Text style={styles.error}>{formikprops.errors.dateOfBirth}</Text>
 
             <TextInput
@@ -229,20 +469,44 @@ export default function BioDataForm({ navigationValue }) {
             />
             <Text style={styles.error}>{formikprops.errors.age}</Text>
 
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="Sex"
               onChangeText={formikprops.handleChange("sex")}
               value={formikprops.values.sex}
-            />
+            /> */}
+
+                <DropDown
+                    label={"Sex"}
+                    mode={"flat"}
+                    visible={showDropDownSex}
+                    showDropDown={() => setShowDropDownSex(true)}
+                    onDismiss={() => setShowDropDownSex(false)}
+                    value={formikprops.values.sex}
+                    setValue={formikprops.handleChange('sex')}
+                    list={Sex}
+                    //dropDownStyle={}
+                    //dropDownItemSelectedStyle={styles.dropDown}
+                    //dropDownItemTextStyle={styles.input}
+                    />
             <Text style={styles.error}>{formikprops.errors.sex}</Text>
 
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="Marital Status"
               onChangeText={formikprops.handleChange("mStatus")}
               value={formikprops.values.mStatus}
-            />
+            /> */}
+             <DropDown
+                    label={"Marital Status"}
+                    mode={"flat"}
+                    visible={showDropDownMstatus}
+                    showDropDown={() => setShowDropDownMstatus(true)}
+                    onDismiss={() => setShowDropDownMstatus(false)}
+                    value={formikprops.values.mStatus}
+                    setValue={formikprops.handleChange('mStatus')}
+                    list={Marital}
+               />     
             <Text style={styles.error}>{formikprops.errors.mStatus}</Text>
 
             <TextInput
@@ -288,19 +552,45 @@ export default function BioDataForm({ navigationValue }) {
               value={formikprops.values.nationality}
             />
             <Text style={styles.error}>{formikprops.errors.nationality}</Text>
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="Religion"
               onChangeText={formikprops.handleChange("religion")}
               value={formikprops.values.religion}
-            />
+            /> */}
+             <DropDown
+                    label={"Religion"}
+                    mode={"flat"}
+                    visible={showDropDownReligion}
+                    showDropDown={() => setShowDropDownReligion(true)}
+                    onDismiss={() => setShowDropDownReligion(false)}
+                    value={formikprops.values.religion}
+                    setValue={formikprops.handleChange('religion')}
+                    list={Religion}
+                    />
+ 
             <Text style={styles.error}>{formikprops.errors.religion}</Text>
-            <TextInput
+            {/* <TextInput
               style={styles.input}
               placeholder="State of Origin"
               onChangeText={formikprops.handleChange("stOfOrg")}
               value={formikprops.values.stOfOrg}
-            />
+            /> */}
+            <DropDown
+                    label={"State of Origin" }
+                    mode={"flat"}
+                    visible={showDropDownSog}
+                    showDropDown={() => setShowDropDownSog(true)}
+                    onDismiss={() => setShowDropDownSog(false)}
+                    value={formikprops.values.stOfOrg}
+                    setValue={formikprops.handleChange('stOfOrg')}
+                    list={Sog}
+
+                    //style={{ backgroundColor: 'white', padding: 8, borderRadius: 4 }}
+                    //dropDownStyle={styles.dropDown}
+                    dropDownItemSelectedStyle={styles.dropDown}
+                    //dropDownItemTextStyle={styles.input}
+                    />
             <Text style={styles.error}>{formikprops.errors.stOfOrg}</Text>
             <TextInput
               style={styles.input}
@@ -322,7 +612,7 @@ export default function BioDataForm({ navigationValue }) {
               onChangeText={formikprops.handleChange("occName")}
               value={formikprops.values.occName}
             />
-            <Text style={styles.error}>{formikprops.errors.occName}</Text>
+            <Text testID="error" style={styles.error}>{formikprops.errors.occName}</Text>
             <TextInput
               style={styles.input}
               placeholder="Parent Address"
@@ -331,6 +621,7 @@ export default function BioDataForm({ navigationValue }) {
             />
             <Text style={styles.error}>{formikprops.errors.parAdd}</Text>
             <TextInput
+            testID="input"
               style={styles.input}
               placeholder="Parent/Guardian Email"
               onChangeText={formikprops.handleChange("parEmail")}
@@ -348,8 +639,8 @@ export default function BioDataForm({ navigationValue }) {
             <View style={styles.space} />
 
             <TouchableOpacity onPress={formikprops.handleSubmit}>
-              <View style={styles.savebutn}>
-                <Text style={styles.savedetails}>Save</Text>
+              <View testID="savebutn" style={styles.savebutn}>
+                <Text testID="savedetails" style={styles.savedetails}>Save</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -403,6 +694,17 @@ const styles = StyleSheet.create({
     borderColor: "#000000",
     borderWidth: 2,
   },
+  dropDown:{
+    borderRadius:1,
+    elevation:100,
+    backgroundColor: 'rgba(247,246,246, 0.9)',
+    marginHorizontal:30,
+    marginVertical:6,
+    borderColor: "#A39E9E",
+    borderWidth: 1,
+    marginHorizontal: 20,
+    marginVertical:20,
+  }
 });
 
 // console.log("I have been clicked");

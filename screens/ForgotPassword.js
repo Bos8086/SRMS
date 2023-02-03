@@ -10,8 +10,8 @@ export default function ForgotPassword({navigation}){
     console.log(navigation)
 
     return(
-        <View style = {styles.container}>
-            <ImageBackground source={require("../assets/logo.png")} style = {styles.image} resizeMode="cover">
+        <View testID='container' style = {styles.container}>
+            <ImageBackground testID='image' source={require("../assets/logo.png")} style = {styles.image} resizeMode="cover">
                     <Card>
                         <ForgotPasswordForm navigationValue={navigation}/>
                     </Card>

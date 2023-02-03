@@ -9,9 +9,9 @@ import AdminChangePasswordForm from './AdminChangePasswordForm';
 
 export default function AdminSettings({navigation}){
     return(
-        <View style =  {styles.container}>
-             <View style={styles.body}>
-                <Text style={styles.text}> Welcome to Settings </Text>
+        <View testID='container' style =  {styles.container}>
+             <View testID='body' style={styles.body}>
+                <Text testID = 'textTest' style={styles.text}> Welcome to Settings </Text>
                 <Card>
                     < AdminChangePasswordForm />
                 </Card>
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-
     body:{
         flex:0.75
     },

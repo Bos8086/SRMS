@@ -4,6 +4,7 @@ import { ErrorMessage, Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
 import { secureGet, secureSave } from '../ExternalVariables/storage'
+import {BASE_URL} from "../shared/constants";
 
 
 export default function AdminPageLoginForm({navigationValue}){
@@ -31,7 +32,7 @@ export default function AdminPageLoginForm({navigationValue}){
             onSubmit = {(values) => {
                 try {
                     console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/login";
+                    var InsertAPIURL = `${BASE_URL}/admin/login`;
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -77,13 +78,14 @@ export default function AdminPageLoginForm({navigationValue}){
               {(formikprops) => (
                 <View >
                    
-                    <TextInput                       
+                    <TextInput
+                        testID='input'                       
                         style = {styles.input}
                         placeholder='Username'
                         onChangeText={formikprops.handleChange('username')}
                         value={formikprops.values.username}
                     /> 
-                    <Text style = {styles.error}>{formikprops.errors.username}</Text>
+                    <Text testID='error' style = {styles.error}>{formikprops.errors.username}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}
@@ -93,12 +95,12 @@ export default function AdminPageLoginForm({navigationValue}){
                     />
                     <Text style = {styles.error}>{formikprops.errors.password}</Text>
 
-                <FlatButton style={styles.button} text ='LOGIN' onPress={formikprops.handleSubmit}/>
+                <FlatButton testID = 'login-button' style={styles.button} text ='LOGIN' onPress={formikprops.handleSubmit}/>
                 <TouchableOpacity onPress={() => {
                     forgot()
                             }}>
-                    <View style = {styles.fpasswordbutn}>
-                        <Text style={styles.fpassword}>'Forgot Password?'</Text>
+                    <View testID='fpasswordbutn' style = {styles.fpasswordbutn}>
+                        <Text testID='fpassword' style={styles.fpassword}>'Forgot Password?'</Text>
                     </View>
                 </TouchableOpacity>
                 </View>

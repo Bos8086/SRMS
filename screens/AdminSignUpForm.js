@@ -3,6 +3,7 @@ import { StyleSheet, Button , TextInput , View , Text, TouchableOpacity } from "
 import { ErrorMessage, Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
+import {BASE_URL} from '../shared/constants'
 
 
 export default function AdminSignUpForm({navigationValue}){
@@ -34,7 +35,7 @@ export default function AdminSignUpForm({navigationValue}){
             onSubmit = {(values) => {
                 try {
                     console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/register";
+                    var InsertAPIURL = `${BASE_URL}/admin/register`;
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
@@ -74,8 +75,9 @@ export default function AdminSignUpForm({navigationValue}){
             >
               {(formikprops) => (
                 <View >
-                    <Text style={styles.text}>SIGN UP</Text>
+                    <Text testID="text" style={styles.text}>SIGN UP</Text>
                     <TextInput
+                    testID="input"
                         style = {styles.input}
                         placeholder='First Name'
                         onChangeText={formikprops.handleChange('fname')}
@@ -104,7 +106,7 @@ export default function AdminSignUpForm({navigationValue}){
                         onChangeText={formikprops.handleChange('confirmPassword')}
                         value={formikprops.values.confirmPassword}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
+                    <Text testID="error" style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
 
                     
 
@@ -114,8 +116,8 @@ export default function AdminSignUpForm({navigationValue}){
                 <TouchableOpacity onPress={() => {
                     login()
                             }}>
-                    <View style = {styles.loginbtn}>
-                        <Text style={styles.login}>Already have a Login? , Click here</Text>
+                    <View testID="loginbtn" style = {styles.loginbtn}>
+                        <Text testID="login" style={styles.login}>Already have a Login? , Click here</Text>
                     </View>
                 </TouchableOpacity>
 

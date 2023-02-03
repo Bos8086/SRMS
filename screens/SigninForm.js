@@ -4,6 +4,9 @@ import { Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
 import { secureGet, secureSave } from '../ExternalVariables/storage'
+import {BASE_URL} from '../shared/constants';
+import  Spinner  from "react-native-loading-spinner-overlay";
+ 
 
 // import { useNavigation } from '@react-navigation/native';
 
@@ -41,7 +44,8 @@ export default function SigninForm({navigationValue}){
             onSubmit = {(values) => {
                 try {
                     console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/login";
+                    var InsertAPIURL = `${BASE_URL}/student/login`;
+                    //var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/login"
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -77,8 +81,13 @@ export default function SigninForm({navigationValue}){
                             secureSave('JAMBNO',number);
                             secureSave('Dept',dept);
                             secureSave('Level',level);                           
-                            console.log("true")           
+                            console.log("true")  ;
+                           
+                              
+                                   
                             navigationValue.navigate('HomePage');
+                            
+                           
                           }
 
                           secureGet('token', setToke);
@@ -113,9 +122,10 @@ export default function SigninForm({navigationValue}){
             }  
             >
               {(formikprops) => (
-                <View >     
-                    <Text style={styles.text}>Login</Text>
+                <View  >     
+                    <Text testID='text' style={styles.text}>Login</Text>
                     <TextInput
+                    testID='input'
                         style = {styles.input}
                         placeholder='Username'
                         onChangeText={formikprops.handleChange('jambNo')}
@@ -131,15 +141,15 @@ export default function SigninForm({navigationValue}){
                 
                     
                     /> 
-                     <Text style = {styles.error}>{formikprops.errors.password}</Text>
+                     <Text testID='error'  style = {styles.error}>{formikprops.errors.password}</Text>
 
                      <View style={styles.space} />
-                <FlatButton text ='Login' onPress={formikprops.handleSubmit}/>
-                <TouchableOpacity onPress={() => {
+                <FlatButton  testID="login-button"  text ='Login'  onPress={formikprops.handleSubmit} />
+                <TouchableOpacity testID="login-button234" onPress={() => {
                     Home()
                             }}>
-                    <View style = {styles.fpasswordbutn}>
-                        <Text style={styles.fpassword}>'Forgot Password?'</Text>
+                    <View testID='fpasswordbutn'  style = {styles.fpasswordbutn}>
+                        <Text  testID='fpassword' style={styles.fpassword}>'Forgot Password?'</Text>
                     </View>
                 </TouchableOpacity>
             

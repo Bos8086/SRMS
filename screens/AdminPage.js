@@ -5,11 +5,11 @@ import AdminSignUpForm from './AdminSignUpForm';
 
 export default function AdminPage({navigation}){
     return(
-        <View style = {styles.container}>
-            <View style={styles.header}>
-                <Image source={require("../assets/ADlogo.png")} style = {styles.header_image}/> 
+        <View testID='container' style = {styles.container}>
+            <View testID='header' style={styles.header}>
+                <Image testID='headerImage' source={require("../assets/ADlogo.png")} style = {styles.header_image}/> 
             </View>
-            <View style={styles.body}>
+            <View testID='body' style={styles.body}>
                     <Card>
                           <AdminSignUpForm navigationValue={navigation}/>
                       </Card>

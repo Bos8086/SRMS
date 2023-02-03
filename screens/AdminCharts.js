@@ -8,6 +8,7 @@ import { secureGet } from '../ExternalVariables/storage';
 import { Value } from 'react-native-reanimated';
 import { BarChart, PieChart } from 'react-native-gifted-charts';
 import { ErrorMessage } from 'formik';
+import {BASE_URL} from '../shared/constants'
 
 
 
@@ -27,8 +28,8 @@ export default function AdminCharts({ navigation }) {
     };
 
     const values = { deptName: dept };
-    const displayAllCountByDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_students_by_departments";
-    const displayAllCountGroupByLevelByDepartmentsAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/admin/show_count_all_level_by_department?deptName=${dept}`;
+    const displayAllCountByDepartmentsAPIURL = `${BASE_URL}/admin/count_all_students_by_departments`;
+    const displayAllCountGroupByLevelByDepartmentsAPIURL = `${BASE_URL}/admin/show_count_all_level_by_department?deptName=${dept}`;
 
 
 
@@ -43,7 +44,7 @@ export default function AdminCharts({ navigation }) {
         await axios.create({ headers }).get(displayAllCountGroupByLevelByDepartmentsAPIURL)
             .then((res) => {
                 console.log("Error Code" ,res?.status)
-                 //setMessage_list(res?.data);
+                 setMessage_list(res?.data);
                  //onsole.log(res?.data);
             })
             .catch((err) => {
@@ -172,10 +173,11 @@ export default function AdminCharts({ navigation }) {
 
         horizontal = {true}
         
+        
         >
-            <View style={styles.container}>
-                <View style={styles.body}>
-                    <Text style={styles.text}>Welcome to Charts</Text>
+            <View testID='container' style={styles.container}>
+                <View testID='body' style={styles.body}>
+                    <Text testID='text' style={styles.text}>Welcome to Charts</Text>
 
 
                     <Text
@@ -238,11 +240,11 @@ export default function AdminCharts({ navigation }) {
                     </View>
 
                     <View>
-                        <Text style={styles.intro} >
+                        <Text testID='intro' style={styles.intro} >
                             Enter the Department you want to view the number of student by level
                         </Text>
 
-                        <TextInput style={styles.TextInput}
+                        <TextInput testID='TextInput' style={styles.TextInput}
                             placeholder='Enter a department'
                             onChangeText={(dept) => setDept(dept)}
                             Value={dept}
@@ -251,8 +253,8 @@ export default function AdminCharts({ navigation }) {
                         </TextInput>
 
                         <TouchableOpacity onPress={countStudentsByLevel}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonText}> Search </Text>
+                            <View  testID='button' style={styles.button}>
+                                <Text testID='buttonText' style={styles.buttonText}> Search </Text>
                             </View>
                         </TouchableOpacity>
 
@@ -279,8 +281,6 @@ export default function AdminCharts({ navigation }) {
                             isAnimated={true}
                             //scrollToEnd={true}
                             //disableScroll={false}
-                            
-
                         />
 
 

@@ -8,6 +8,7 @@ import FlatButton from '../shared/button';
 import Card from '../shared/card';
 import ItemCard from '../shared/ItemCard'
 import { ScrollView } from 'react-native-gesture-handler';
+import {BASE_URL} from '../shared/constants';
 
 
 
@@ -24,8 +25,8 @@ export default function CourseRegistration({ navigation }) {
     const Dept_new = Depts.toUpperCase()
     const values = { department_name: Dept_new };
 
-    const InsertAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/student/view_All_course?department_name=${Dept_new}`
-    const RegisterAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/register_course";
+    const InsertAPIURL = `${BASE_URL}/student/view_All_course?department_name=${Dept_new}`
+    const RegisterAPIURL = `${BASE_URL}/student/register_course`;
     secureGet('token', setToke);
     secureGet('JAMBNO', setRegNo);
     console.log('regNO : ', regNo)
@@ -61,7 +62,7 @@ export default function CourseRegistration({ navigation }) {
 
                 })
                 .catch((err) => {
-                    console.error(err);
+                    console.error(err.response.data);
                 });
 
         };
@@ -88,7 +89,7 @@ export default function CourseRegistration({ navigation }) {
 
         const getNoFetchCourses = async () => {
             console.log("Token1", tok);
-            console.log("Department", Depts)
+            console.log("Department", Dept_new)
 
             var headers = {
                 'Accept': 'application/json',
@@ -102,6 +103,7 @@ export default function CourseRegistration({ navigation }) {
 
             await axios.create({ headers }).get(InsertAPIURL)
                 .then((res) => {
+                    console.log("I am here")
                     console.log("response", res?.data);
                     setMessage(res?.data);
                     console.log(message)
@@ -133,7 +135,7 @@ export default function CourseRegistration({ navigation }) {
     ]
 
     const headerComponent = () => {
-        return <Text style={styles.listHeaderItem}>Courses</Text>
+        return <Text testID='listHeaderItem' style={styles.listHeaderItem}>Courses</Text>
     }
 
     const itemSeparator = () => {
@@ -172,26 +174,27 @@ export default function CourseRegistration({ navigation }) {
 
     return (
 
-        <View style={styles.container} r>
-            <View style={styles.header}>
-                <Image source={require("../assets/logo.png")} style={styles.image} />
+        <View testID='container' style={styles.container} r>
+            <View testID='header' style={styles.header}>
+                <Image testID='image' source={require("../assets/logo.png")} style={styles.image} />
                 <Text>  Welome {regNo} </Text>
             </View>
 
 
-            <View style={styles.body}>
-                <Text style={styles.text}>Welcome to CourseRegistration</Text>
-                <Text style={styles.info}>Click on a course to find out more </Text>
+            <View testID='body' style={styles.body}>
+                <Text testID='text' style={styles.text}>Welcome to CourseRegistration</Text>
+                <Text testID='info' style={styles.info}>Click on a course to find out more </Text>
             </View>
 
 
-            <View style={styles.content}>
+            <View testID='content' style={styles.content}>
 
 
                 <FlatList
-
-
+                   
+                    
                     ListHeaderComponentStyle={styles.listHeader}
+                    testID='listHeader'
                     ListHeaderComponent={headerComponent}
                     keyExtractor={(item) => item.courseId}
                     data={message}
@@ -203,14 +206,15 @@ export default function CourseRegistration({ navigation }) {
                             toggleModal();
                             console.log("This is current state of  Modal : ", modalVisible);
                          
-                            //Alert.alert("Description : ", item.courseDesc)
+                            Alert.alert("Description : ", item.courseDesc);
+                            //Alert.alert(item.courseCode);
                             <View>
                                 <Modal
                                     visible={modalVisible}
                                     animationType={"fade"}
                                     transparent={false}
                                 >
-                                    <View style={styles.modal}>
+                                    <View testID='modal' style={styles.modal}>
                                         <Text>
                                             {item.courseDesc}
                                         </Text>
@@ -223,14 +227,14 @@ export default function CourseRegistration({ navigation }) {
                         }>
                             <ItemCard >
                                 <View>
-                                    <Text style={styles.item}> Course Name : {item.courseName} </Text>
+                                    <Text testID='item' style={styles.item}> Course Name : {item.courseName} </Text>
                                     <Text style={styles.item}> Status : {item.status} </Text>
                                     <Text style={styles.item}> Units : {item.unit} </Text>
                                     <TouchableOpacity onPress={() => {
                                         addButton(item.courseName, item.courseId)
                                     }}>
-                                        <View style={styles.buttonAdd}>
-                                            <Text style={styles.buttonText}> Add </Text>
+                                        <View testID='buttonAdd' style={styles.buttonAdd}>
+                                            <Text testID='buttonText' style={styles.buttonText}> Add </Text>
                                         </View>
                                     </TouchableOpacity>
 
@@ -358,3 +362,4 @@ const styles = StyleSheet.create({
     },
 
 });
+

@@ -4,6 +4,7 @@ import { secureGet } from "../ExternalVariables/storage";
 import { StyleSheet } from "react-native";
 import { useEffect } from "react";
 import axios from "axios";
+import {BASE_URL} from '../shared/constants';
 
 export default function ProfileForm({}) {
   const [message, setMessage] = useState({});
@@ -12,7 +13,7 @@ export default function ProfileForm({}) {
   secureGet("token", setToke);
   secureGet("JAMBNO", setRegNo);
 
-  var InsertAPIURL = `https://s-r-m-s2022.herokuapp.com/api/v1/student/profile?jambNo=${regNo}`;
+  var InsertAPIURL = `${BASE_URL}/student/profile?jambNo=${regNo}`;
   var headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -34,7 +35,8 @@ export default function ProfileForm({}) {
           Alert.alert(res?.data.message);
         })
         .catch((err) => {
-          console.error(err);
+          Alert.alert(err.response.data.message)
+          console.error(err.response.data.message);
         });
     };
 
@@ -46,8 +48,8 @@ export default function ProfileForm({}) {
 
   const inputs = [
     {title:"Firstname : ", value: message.fname},
-    {title:"Surname : ", value: message.surName},
     {title:"Middle Name : ", value: message.midName},
+    {title:"Surname : ", value: message.surName},
     {title:"Sex : ", value: message.sex},
     {title:"Faculty : ", value: message.faculty},
     {title:"Department : ", value: message.department},
@@ -63,9 +65,9 @@ export default function ProfileForm({}) {
     
     <ScrollView style={{minWidth:'100%'}}>
       {inputs.map((input, index)=>(
-        <View  key= {index} style={styles.body}>
-        <Text style={styles.title}>{input.title}</Text>
-        <Text style={styles.text}>{input.value}</Text>
+        <View testID="bodyTest103"  key= {index} style={styles.body}>
+        <Text testID="titleTest103" style={styles.title}>{input.title}</Text>
+        <Text testID="textTest103" style={styles.text}>{input.value}</Text>
       </View>
         
     ))}

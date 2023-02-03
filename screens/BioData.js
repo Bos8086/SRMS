@@ -13,15 +13,17 @@ import BioDataForm from "./BioDataForm";
 
 export default function BioData({ navigation }) {
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.header}>
-          <Image source={require("../assets/logo.png")} style={styles.image} />
+    <View testID='container' style={styles.container}>
+      <ScrollView 
+      // style={styles.scrollView}
+      >
+        <View testID="header" style={styles.header}>
+          <Image testID="image" source={require("../assets/logo.png")} style={styles.image} />
           <Text> Bio - Data Form</Text>
         </View>
 
-        <View style={styles.body}>
-          <Text style={styles.text}>Welcome to BioData</Text>
+        <View testID="body" style={styles.body}>
+          <Text testID="text" style={styles.text}>Welcome to BioData</Text>
           <BioDataForm navigationValue={navigation} />
         </View>
       </ScrollView>

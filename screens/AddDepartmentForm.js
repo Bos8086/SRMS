@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import FlatButton from "../shared/button";
 import axios from "axios";
 import  { countAllDepartments,displayAllDepartments} from "./AdminSubjectManagement";
+import {BASE_URL} from '../shared/constants';
 
 
 const reviewSchema = yup.object({
@@ -21,7 +22,7 @@ export default function AddDepartmentForm({}){
     const [list,setlist] = useState([]);
     secureGet('token', setToke);
 
-    const createDepartmentAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/create_department";
+    const createDepartmentAPIURL = `${ BASE_URL }/admin/create_department`;
 
     var headers = {
         'Accept': 'application/json',
@@ -62,15 +63,16 @@ export default function AddDepartmentForm({}){
             {(formikProps) => (
                 <View>
                     <TextInput
+                    testID="input"
                     style = {styles.input}
                     placeholder='Department Name'
                     onChangeText={formikProps.handleChange('deptName')}
                     value={formikProps.values.deptName.toUpperCase()}
                     />
-                     <Text style = {styles.error}>{formikProps.errors.deptName}</Text>
+                     <Text testID="error" style = {styles.error}>{formikProps.errors.deptName}</Text>
                     <TouchableOpacity onPress={formikProps.handleSubmit}>
-                        <View style = {styles.savebutn}>
-                            <Text style={styles.savedetails}>Save</Text>
+                        <View testID="savebutn" style = {styles.savebutn}>
+                            <Text testID="savedetails" style={styles.savedetails}>Save</Text>
                         </View>   
                     </TouchableOpacity>   
                  </View>
@@ -100,11 +102,9 @@ const styles = StyleSheet.create({
         fontWeight:"bold"
     },
     savedetails:{ 
-    
         fontSize:20,
         fontWeight:"bold",
         textAlign: "center"
-        
     },
     savebutn:{
         alignSelf:'flex-end',

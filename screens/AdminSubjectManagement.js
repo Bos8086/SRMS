@@ -11,10 +11,11 @@ import AddDepartmentForm from './AddDepartmentForm';
 import { useIsFocused } from '@react-navigation/native';
 import ItemCard from '../shared/ItemCard'
 import StatsCard from '../shared/StatsCard';
+import {BASE_URL} from '../shared/constants';
 
 
-const CountAllAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/count_all_departments";
-const displayAllDepartmentsAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/display_dept";
+const CountAllAPIURL = `${BASE_URL}/admin/count_all_departments`;
+const displayAllDepartmentsAPIURL = `${BASE_URL}/admin/display_dept`;
 
 
 
@@ -88,10 +89,10 @@ export default function AdminSubjectManagement({ navigation }) {
 
 
     return (
-        <View style={styles.container}>
+        <View testID='container' style={styles.container}>
             <ScrollView>
-                <View style={styles.body}>
-                    <Text style={styles.text}>Welcome to Subject Management</Text>
+                <View testID='body' style={styles.body}>
+                    <Text testID='text' style={styles.text}>Welcome to Subject Management</Text>
                     <Text style={styles.text}>These are the Number of departments : {message.count}</Text>
                     <Text style={styles.text}>These are The List of Departments : </Text>
                     <StatsCard>
@@ -107,7 +108,7 @@ export default function AdminSubjectManagement({ navigation }) {
                     </StatsCard>
 
                 </View>
-                <Text style={styles.header}>
+                <Text testID='header' style={styles.header}>
                     Add a Department
                 </Text>
 

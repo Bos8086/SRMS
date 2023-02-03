@@ -5,7 +5,7 @@ import ChangePasswordForm from './ChangePasswordForm'
 
 export default function Notification({navigation}){
     return(
-        <View style =  {styles.container}r>        
+        <View testID='container' style =  {styles.container}r>        
                     <Card>
                         <View>
                             <Text>

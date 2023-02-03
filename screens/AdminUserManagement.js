@@ -7,9 +7,9 @@ import { launchImageLibrary } from 'react-native-image-picker';
 
 export default function AdminUserManagement({navigation}){
     return(
-        <View style =  {styles.container}>
-             <View style={styles.body}>
-                <Text style={styles.text}>Welcome to Student Management</Text>
+        <View testID='container' style =  {styles.container}>
+             <View testID='body' style={styles.body}>
+                <Text testID='text' style={styles.text}>Welcome to Student Management</Text>
             </View>
         </View>
     )

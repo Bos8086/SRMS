@@ -7,6 +7,11 @@ import DocumentPicker from 'react-native-document-picker';
 import { secureGet } from '../ExternalVariables/storage';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
+import {BASE_URL} from '../shared/constants';
+import { useToast } from "react-native-toast-notifications";
+import Spinner from 'react-native-loading-spinner-overlay/lib';
+
+
 
 
 //const Drawer = createDrawerNavigator();
@@ -18,10 +23,13 @@ export default function HomePage({navigation}){
     const [regNo,setRegNo] = useState();
     const [response,setResponse] = useState();
     const isFocused = useIsFocused();
+    const [spinner,setSpinner] = useState();
+    const toast = useToast();
 
 
-    const DisplayPictureUrl = `https://s-r-m-s2022.herokuapp.com/api/v1/student/display_biodata_picture?jambNo=${regNo}`;
-    const body = {jambNo:regNo}
+    const DisplayPictureUrl = `${BASE_URL}/student/display_biodata_picture?jambNo=${regNo}`;
+    
+    
 
     var headers = {
         'Accept': 'application/json',
@@ -34,22 +42,40 @@ export default function HomePage({navigation}){
 
 
     useEffect(  ()=> {
+        setSpinner(true)
+       
+
 
     const DisplayPicture =  async()=> {
+        
         await axios.create({headers}).get(DisplayPictureUrl)
         .then((res)=>{
             setResponse(res?.data);
+            
             console.log(" response1 " , res?.data);
             console.log(" picture Url ",res?.data.picUrl);
              console.log("Response of picture URL : ",response?.picUrl)
+             setSpinner(false)
             
-            if(res?.data.message=="Cannot display picture to unknown JambNo" || res?.data.picUrl==""){
-                setResponse(res?.data);
-                Alert.alert("Please Upload a picture to BioData to display your profile picture")
-            }
+            // if(res?.data.message=="Cannot display picture to unknown JambNo" || res?.data.picUrl==""){
+            //     setResponse(res?.data);
+            //     //Alert.alert("Please Upload a picture to BioData to display your profile picture")
+            // }
     })
     .catch((err)=>{
-        console.error(err);
+        if(err.response.data.message=="Cannot display picture to unknown JambNo"){
+            setSpinner(false)
+            toast.show("upload picture in BioData ",{
+                type:"normal",
+                placement:"top",
+                
+            })
+            //Toast.showWithGravity('Please Upload a picture to BioData to display your profile picture',Toast.SHORT,Toast.TOP);
+           // Alert.alert("Please Upload a picture to BioData to display your profile picture")
+        }
+       
+        //console.error(err.response.data.message);
+        
     });
 
 
@@ -69,21 +95,40 @@ export default function HomePage({navigation}){
      }
 //console.log(response.picUrl)
     return(
-    <View style =  {styles.container}>
+        
+       
+     
+    <View style =  {styles.container} testID='container'>
+         <Spinner
+                            visible= {spinner}
+                            textContent={'Loading...'}
+                            textStyle={styles.spinnerTextStyle}
+                            size={"large"}
+                            />
 
-        <View style={styles.header}>
-
-         
-        <Image source={ require("../assets/logo.png")} style={styles.image}/>
+        <View style={styles.header} testID='header'>
+        <Image  testID='image' source={ require("../assets/logo.png")} style={styles.image}/>
             <Text>  Welome  {regNo}</Text> 
             
         </View>
 
-        <View style={styles.body}>
-            <Text style={styles.text}>Welcome to HomePage</Text>
+        <View style={styles.body} testID='body'>
+            <Text testID='text' style={styles.text}>Welcome to HomePage</Text>
+
+            {!response && (
+            <View>
+                
+           
+            <TouchableOpacity onPress={() => {navigation.navigate('BioData')}}>
+                <Text>Please Upload a photo </Text>
+            </TouchableOpacity>
+            
+                
+            </View>
+          )}
 
             <TouchableHighlight 
-            onPress={()=>alert('pressed2')}
+            onPress={()=>alert('Picture Displayed here')}
             underlayColor="rgba(0,0,0,0)">
             <Avatar.Image
                 size={200}    
@@ -94,8 +139,8 @@ export default function HomePage({navigation}){
             </TouchableHighlight>
         <View style={styles.space} />
         <TouchableOpacity onPress={onPress5}>
-            <View style={styles.button}>
-                <Text style={styles.buttonText}>Logout</Text>
+            <View style={styles.button} testID='button'>
+                <Text style={styles.buttonText} testID='buttonText'>Logout</Text>
             </View>
         </TouchableOpacity>
         

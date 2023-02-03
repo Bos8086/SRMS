@@ -14,29 +14,29 @@ const pressHandler2=() => {
     return(
         
   
-    <View style = {styles.container}>
-        <View style={styles.header}>
-            <Image source={ require("../assets/franinnocent.jpg")} style={styles.image}/>
+    <View style = {styles.container}  testID='container'>
+        <View style={styles.header} testID='header'>
+            <Image source={ require("../assets/franinnocent.jpg")}  testID='image' style={styles.image}/>
             <Image source={require("../assets/jansen-miller-GFFAXGdhbg4-unsplash.jpg")} style={styles.image}/>
             <Image source={ require("../assets/bucerius-law-school-U587PEB9Xjo-unsplash.jpg")} style={styles.image}/>
             <Image source={require("../assets/nick-samoylov-GrLnSHJT1fI-unsplash.jpg")} style={styles.image}/>
         </View>  
-        <View  style ={styles.body}>   
-            <Text style={styles.text}>Welcome to TOL University</Text>
-            <Text style={styles.textsmall}>...Fast Access to Courses</Text>
-            <Image source={require("../assets/logo.png")} style = {styles.main_image}/>    
+        <View  style ={styles.body} testID='body'>   
+            <Text style={styles.text} testID='text'>Welcome to TOL University</Text>
+            <Text style={styles.textsmall} testID='textsmall'>...Fast Access to Courses</Text>
+            <Image source={require("../assets/logo.png")} style = {styles.main_image} testID='main_image'/>    
         </View>
-        <View style = {styles.bottom}>
+        <View style = {styles.bottom} testID='bottom'>
         {/* <Button onPress={pressHandler3} title='Homepage' style ={styles.button}/> */}
             <TouchableOpacity onPress={pressHandler2}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>Login</Text>
+                <View style={styles.button} testID='button'>
+                    <Text style={styles.buttonText} testID='buttonTextLogin'>Login</Text>
                 </View>
             </TouchableOpacity>
             <View style={styles.space} />
             <TouchableOpacity onPress={pressHandler}>
                 <View style={styles.button}>
-                    <Text style={styles.buttonText}>Register..</Text>
+                    <Text style={styles.buttonText}testID='buttonTextRegister' >Register</Text>
                 </View>
              </TouchableOpacity>
             

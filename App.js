@@ -6,6 +6,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { Provider as PaperProvider } from 'react-native-paper';
+
 import Index from './screens/Index';
 import Register from './screens/Register';
 import Signin from './screens/Signin';
@@ -27,9 +29,7 @@ import AdminUserManagement from './screens/AdminUserManagement';
 import AdminCourseManagement from './screens/AdminCourseManagement';
 import AdminSubjectManagement from './screens/AdminSubjectManagement';
 import Logout from './screens/Logout';
-
-
-
+import { ToastProvider } from 'react-native-toast-notifications';
 
 
 
@@ -41,10 +41,9 @@ export default function App() {
 
   const Stack = createNativeStackNavigator();
 
+
   function DrawerNavigator() {
     return <Drawer.Navigator
-
-
       screenOptions={{
 
         drawerIcon: ({ }) => (
@@ -164,7 +163,7 @@ export default function App() {
           borderColor: "#FBC7C6",
           borderWidth: 1,
           headerTitle: 'Dashboard',
-          headerStyle: { height: 300 },
+          headerStyle: { height: 200 },
           headerTitleStyle: { fontSize: 18, padding: 20 }
 
         }
@@ -269,12 +268,18 @@ export default function App() {
               />
             )
           }}
+          
+
+      
         />
       </Drawer.Group>
     </Drawer.Navigator>
   }
 
+  
   return (
+    <PaperProvider>
+    <ToastProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -352,6 +357,8 @@ export default function App() {
 
       </Stack.Navigator>
     </NavigationContainer>
+    </ToastProvider>
+    </PaperProvider>
 
   );
 }

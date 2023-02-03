@@ -3,6 +3,7 @@ import { StyleSheet, Button , TextInput , View , Text, TouchableWithoutFeedback,
 import { Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
+import {BASE_URL} from '../shared/constants';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
@@ -29,7 +30,7 @@ export default function ForgotPasswordForm({navigationValue}){
             onSubmit = {(values) => {
                 try {
                     console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/student/reset_password";
+                    var InsertAPIURL = `${BASE_URL}/student/reset_password`;
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -72,15 +73,16 @@ export default function ForgotPasswordForm({navigationValue}){
             >
               {(formikprops) => (
                 <View >     
-                    <Text style={styles.text}>Forgot Password</Text>
-                    <Text style={styles.smalltext}>Please Re-Enter Password</Text>
+                    <Text testID='text' style={styles.text}>Forgot Password</Text>
+                    <Text testID = 'smalltext' style={styles.smalltext}>Please Re-Enter Password</Text>
                     <TextInput
+                    testID='input'
                         style = {styles.input}
                         placeholder='Enter JambNo'
                         onChangeText={formikprops.handleChange('JambNo')}
                         value={formikprops.values.JambNo}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.JambNo}</Text>
+                    <Text testID='error' style = {styles.error}>{formikprops.errors.JambNo}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}

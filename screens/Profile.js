@@ -20,13 +20,13 @@ export default function Profile() {
   console.log("RegNo : ", regNo);
 
   return (
-    <View style={styles.container} >
-      <View style={styles.header}>
-        <Image source={require("../assets/logo.png")} style={styles.image} />
+    <View testID="container" style={styles.container} >
+      <View testID="header" style={styles.header}>
+        <Image testID="image" source={require("../assets/logo.png")} style={styles.image} />
         <Text> Profile </Text>
       </View>
-      <View style={styles.body}>
-        <Text style={styles.text}>Welcome {regNo}</Text>
+      <View testID='bodyTest101' style={styles.body}>
+        <Text testID='textTest101' style={styles.text}>Welcome {regNo}</Text>
         <Card style={{width:'150%'}}>
           <ProfileForm />
         </Card>

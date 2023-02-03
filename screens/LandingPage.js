@@ -15,18 +15,18 @@ export default function LandingPage({navigation}){
     //     navigation.navigate('Teacher')
     // }
     return(
-        <View style = {styles.container}>
-            <View style={styles.header}>
-                <Image source={require("../assets/logo.png")} style = {styles.main_image}/>    
+        <View testID='container' style = {styles.container}>
+            <View testID='header' style={styles.header}>
+                <Image testID='mainImage' source={require("../assets/logo.png")} style = {styles.main_image}/>    
             </View>  
-            <View style={styles.body}>
-                <Text style={styles.text}>Welcome to TOL University</Text>
-                <Text style={styles.text}>Please Choose Select the appropriate button</Text>
+            <View  style={styles.body}>
+                <Text testID='text' style={styles.text}>Welcome to TOL University</Text>
+                <Text style={styles.text}>Please Select the appropriate button</Text>
             </View>
-            <View style={styles.bottom}>
+            <View testID = 'bottom' style={styles.bottom}>
             <TouchableOpacity onPress={RedirectStudent}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>Student</Text>
+                <View testID='button' style={styles.button}>
+                    <Text testID='buttonText' style={styles.buttonText}>Student</Text>
                 </View>
                 <View style={styles.space} />
             </TouchableOpacity>
@@ -59,10 +59,6 @@ const styles = StyleSheet.create({
           flex:0.1,
           flexDirection:'row'
       },
-      header:{
-        flex:0.1,
-        flexDirection:'row'
-    },
     main_image:{
         //justifyContent:'flex-start',
         borderRadius: 48,

@@ -13,8 +13,8 @@ export default function Register({navigation}){
             Keyboard.dismiss();
             console.log('dismissed Keyboard');
           }}>
-            <View style = {styles.container}>
-              <ImageBackground source={require("../assets/logo.png")} style = {styles.image} resizeMode="cover">
+            <View style = {styles.container} testID = 'container'>
+              <ImageBackground source={require("../assets/logo.png")} style = {styles.image} testID = 'image' resizeMode="cover">
                       <Card>
                           <SignupForm navigationValue={navigation}/>
                       </Card>

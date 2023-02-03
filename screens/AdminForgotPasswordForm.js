@@ -3,6 +3,7 @@ import { StyleSheet, Button , TextInput , View , Text, TouchableOpacity } from "
 import { ErrorMessage, Formik } from 'formik';
 import FlatButton from '../shared/button';
 import * as yup from 'yup';
+import {BASE_URL} from "../shared/constants";
 
 
 export default function AdminForgotPasswordForm({navigationValue}){
@@ -25,7 +26,7 @@ export default function AdminForgotPasswordForm({navigationValue}){
             onSubmit = {(values) => {
                 try {
                     console.log(values, 'values');
-                    var InsertAPIURL = "https://s-r-m-s2022.herokuapp.com/api/v1/admin/reset_password";
+                    var InsertAPIURL = `${BASE_URL}/admin/reset_password`;
                     var headers = {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ export default function AdminForgotPasswordForm({navigationValue}){
             >
               {(formikprops) => (
                 <View >
-                    <Text style={styles.text}>Forgot Password</Text>
+                    <Text testID="text" style={styles.text}>Forgot Password</Text>
                     <TextInput                       
                         style = {styles.input}
                         placeholder='Username'
@@ -85,8 +86,9 @@ export default function AdminForgotPasswordForm({navigationValue}){
                         onChangeText={formikprops.handleChange('newPassword')}
                         value={formikprops.values.newPassword}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.newPassword}</Text>
+                    <Text testID="error" style = {styles.error}>{formikprops.errors.newPassword}</Text>
                     <TextInput
+                    testID="input"
                         secureTextEntry = {true}
                         style = {styles.input}
                         placeholder='Re-enter Password:'
@@ -95,7 +97,7 @@ export default function AdminForgotPasswordForm({navigationValue}){
                     />
                     <Text style = {styles.error}>{formikprops.errors.confirmPassword}</Text>
 
-                <FlatButton style={styles.button} text ='Reset Password' onPress={formikprops.handleSubmit}/>
+                <FlatButton testID='button' style={styles.button} text ='Reset Password' onPress={formikprops.handleSubmit}/>
                 </View>
               )}
             </Formik>

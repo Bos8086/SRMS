@@ -5,6 +5,7 @@ import FlatButton from '../shared/button';
 import * as yup from 'yup';
 import { secureGet,secureSave } from '../ExternalVariables/storage';
 import axios from 'axios';
+import {BASE_URL} from '../shared/constants';
 // import { useNavigation } from '@react-navigation/native';
 
 const reviewSchema = yup.object({
@@ -28,7 +29,7 @@ const [message,setMessage] = useState();
 
 secureGet('token', setTok);
 secureGet('JAMBNO', setRegNo);
-const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/change_password";
+const ChangePasswordUrl = `${BASE_URL}/student/change_password`;
 
 
     const [signinValues,setSigninValues] = useState([])
@@ -82,15 +83,16 @@ const ChangePasswordUrl = "https://s-r-m-s2022.herokuapp.com/api/v1/student/chan
             >
               {(formikprops) => (
                 <View >   
-                    <Text style={styles.text}>Change Password</Text>  
+                    <Text testID='text' style={styles.text}>Change Password</Text>  
                     <TextInput
+                    testID='input'
                         secureTextEntry = {true}
                         style = {styles.input}
                         placeholder='Old Password'
                         onChangeText={formikprops.handleChange('OldPassword')}
                         value={formikprops.values.OldPassword}
                     />
-                    <Text style = {styles.error}>{formikprops.errors.OldPassword}</Text>
+                    <Text testID='error' style = {styles.error}>{formikprops.errors.OldPassword}</Text>
                     <TextInput
                         secureTextEntry = {true}
                         style = {styles.input}

@@ -11,15 +11,17 @@ import Notification from './Notification';
 
 export default function Settings({navigation}){
     return(
-        <View style =  {styles.container}r>
-            <ScrollView style={styles.scrollView}>
-                <View style={styles.header}>
-                <Image source={ require("../assets/logo.png")} style={styles.image}/>
+        <View testID='containerTest' style =  {styles.container}r>
+            <ScrollView 
+            // style={styles.scrollView}
+            >
+                <View testID='header' style={styles.header}>
+                <Image testID='image' source={ require("../assets/logo.png")} style={styles.image}/>
                     <Text>  Settings </Text> 
                 </View>
         
-                <View style={styles.body}>
-                    <Text style={styles.text}>Welcome to Settings</Text>
+                <View testID='body' style={styles.body}>
+                    <Text testID='text104' style={styles.text}>Welcome to Settings</Text>
                     <Card>
                         <ChangePasswordForm navigationValue={navigation}/>
                     </Card>
